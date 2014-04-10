@@ -42,9 +42,7 @@ if (!array_key_exists('game', $_SESSION))
 $game = unserialize($_SESSION['game']);
 $game->player1->ships[0]->position['x']++;
 $game->player1->ships[0]->position['y']--;
-
 $game->displayBoard();
-
 
 // Save Current Game
 $_SESSION['game'] = serialize($game);
