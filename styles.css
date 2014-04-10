@@ -1,0 +1,45 @@
+body
+{
+	background: #000;
+	color: #FFF;
+}
+
+#board
+{
+	width: 94%;
+	margin: 0 auto;
+}
+
+#board .boardLine
+{
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#board .boardLine .boardSquare
+{
+	flex: 1 50px;
+	width: 20px;
+	height: 13px;
+	background: #111;
+	border: 1px dotted #2d3649;
+}
+
+#board .boardLine .boardSquare.ship
+{
+	border: 1px solid #2d3649;
+}
+
+#board .boardLine .boardSquare.ship.player1
+{
+	background: #2d889e;
+	border-color: #1d788e;
+}
+
+#board .boardLine .boardSquare.ship.player2
+{
+	background: #9d0e4c;
+	border-color: #8d013c;
+}
