@@ -8,12 +8,11 @@ class Game
 	protected			$_currentPlayer;
 	public				$player1;
 	public				$player2;
-	protected			$board;
+	public				$board;
 
 	public function		__construct()
 	{
-
-		$this->_board = new Board(150, 100);
+		$this->board = new Board(150, 100);
 		$this->player1 = new Player(1);
 		$this->player2 = new Player(2);
 		$this->_currentPlayer = rand(1, 2);

@@ -30,10 +30,12 @@ class Ship
 			."\t}\n";
 	}
 
-	public function		mapOut($action){
-
-		if ($action == "RotateLeft" || $action == "RotateRight"){
-			switch ($this->direction){
+	public function		mapOut($action)
+	{
+		if ($action == "RotateLeft" || $action == "RotateRight")
+		{
+			switch ($this->direction)
+			{
 				case 0:
 					if ($this->position['x'] - $this->height / 2 >= 0
 						&& $this->position['x'] + $this->height / 2 <= $GLOBALS['game']->board->width)
@@ -58,8 +60,10 @@ class Ship
 					break;
 			}
 		}
-		else{
-			switch ($this->direction){
+		else
+		{
+			switch ($this->direction)
+			{
 				case 0:
 				if ($this->position['y'] + 1 >= 0)
 					return true;
@@ -100,8 +104,10 @@ class Ship
 				// Rotate with direction 0 or 2
 			}
 		}
-		else{
-			switch ($this->direction){
+		else
+		{
+			switch ($this->direction)
+			{
 				case 0:
 					$j = $this->position['y'] - $this->height / 2;
 					for ($i = $this->position['x'] - $this->width / 2; $i < $this->position['x'] + 0.5 * $this->width ; $i++){
