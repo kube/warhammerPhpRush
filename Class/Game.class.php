@@ -12,11 +12,8 @@ class Game
 
 	public function		__construct()
 	{
-<<<<<<< HEAD
-		$this->board = new Board(150, 90);
-=======
+
 		$this->_board = new Board(150, 100);
->>>>>>> 702cc855c8bdb4ade0c9f2ca3d4b3f0a14c26468
 		$this->player1 = new Player(1);
 		$this->player2 = new Player(2);
 		$this->_currentPlayer = rand(1, 2);
