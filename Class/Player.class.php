@@ -5,6 +5,7 @@ require_once "Ship.class.php";
 class Player
 {
 	private				$_player;
+	private				$_game;
 	public				$ships;
 
 	public function		__construct($player)
