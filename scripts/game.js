@@ -23,6 +23,11 @@ function 	rotateHeight(height, width, direction)
 		return (height);
 }
 
+function	selectShip(ship)
+{
+
+}
+
 function	displayShip(ship, player)
 {
 	var width = rotateWidth(ship.width, ship.height, ship.direction);
@@ -35,7 +40,9 @@ function	displayShip(ship, player)
 		for (var i = parseInt(ship.position.x - width / 2);
 				i < parseInt(ship.position.x + width / 2);
 				i++)
+		{
 			$("#sq_x"+i+"y"+j).addClass("ship player" + player);
+		}
 	}
 }
 
