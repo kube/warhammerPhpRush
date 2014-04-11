@@ -12,8 +12,24 @@ class Player
 	{
 		$this->_player = $player;
 		$this->ships = array();
-		array_push($this->ships, new Ship(8, 4, 5 * $player, 25 * $player));
-		array_push($this->ships, new Ship(1, 3, 10 * $player, 35 * $player));
+		if ($player == 1)
+		{
+			array_push($this->ships, new Ship(3, 10, 5 , 10));
+			array_push($this->ships, new Ship(3, 10, 10 , 10));
+			array_push($this->ships, new Ship(2, 7, 15 , 10));
+			array_push($this->ships, new Ship(2, 7, 20 , 10));
+			array_push($this->ships, new Ship(1, 3, 25, 10));
+			array_push($this->ships, new Ship(1, 3, 30, 10));
+		}
+		else
+		{
+			array_push($this->ships, new Ship(3, 10, 145 , 90));
+			array_push($this->ships, new Ship(3, 10, 140 , 90));
+			array_push($this->ships, new Ship(2, 7, 135 , 90));
+			array_push($this->ships, new Ship(2, 7, 130 , 90));
+			array_push($this->ships, new Ship(1, 3, 125, 90));
+			array_push($this->ships, new Ship(1, 3, 120, 90));
+		}
 	}
 
 	public function		__toString()

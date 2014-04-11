@@ -8,11 +8,12 @@ class Game
 	protected			$_currentPlayer;
 	public				$player1;
 	public				$player2;
-	protected			$_board;
+	protected			$board;
 
 	public function		__construct()
 	{
-		$this->_board = new Board(150, 90);
+
+		$this->_board = new Board(150, 100);
 		$this->player1 = new Player(1);
 		$this->player2 = new Player(2);
 		$this->_currentPlayer = rand(1, 2);
@@ -79,7 +80,7 @@ class Game
 	{
 		return "{"
 			.'"currentPlayer": '.$this->_currentPlayer.",\n"
-			.'"board": '.$this->_board.",\n"
+			.'"board": '.$this->board.",\n"
 			.'"player1": '.$this->player1.",\n"
 			.'"player2": '.$this->player2."\n"
 			."}";
@@ -88,7 +89,7 @@ class Game
 	public function		displayBoard()
 	{
 		echo "<div id='board'>";
-		foreach ($this->_board->grid as $j => $line)
+		foreach ($this->board->grid as $j => $line)
 		{
 			echo "<div id='line_".$j."' class='boardLine'>";
 			foreach ($line as $i => $square)
