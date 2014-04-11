@@ -4,10 +4,17 @@ body
 	color: #FFF;
 }
 
+#boardWrapper
+{
+	width: 100%;
+	-webkit-perspective: 790px;
+}
+
 #board
 {
-	width: 94%;
+	width: 80%;
 	margin: 0 auto;
+	-webkit-transform: rotateX(13deg);
 }
 
 #board .boardLine
@@ -22,7 +29,7 @@ body
 {
 	flex: 1 50px;
 	width: 20px;
-	height: 13px;
+	height: 11px;
 	background: #111;
 	border: 1px dotted #2d3649;
 }

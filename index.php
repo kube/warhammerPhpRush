@@ -43,6 +43,7 @@ require_once "Class/Game.class.php";
 	</script>
 </head>
 <body onLoad="initializeGame();">
+<div id="boardWrapper">
 <?php
 
 if (!array_key_exists('game', $_SESSION))
@@ -59,5 +60,6 @@ $game->displayBoard();
 $_SESSION['game'] = serialize($game);
 
 ?>
+</div>
 </body>
 </html>

@@ -102,7 +102,7 @@ class Game
 		echo "<div id='board'>";
 		foreach ($this->_board->grid as $j => $line)
 		{
-			echo "<div class='boardLine".$j."'>";
+			echo "<div id='line_".$j."' class='boardLine'>";
 			foreach ($line as $i => $square)
 			{
 				// echo "$i $j <br>";
