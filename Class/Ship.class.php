@@ -32,6 +32,28 @@ class Ship
 			."\t}\n";
 	}
 
+	public function		chechkMove($action){
+		if ($action == "RotateLeft"){
+			switch($this->direction){
+				case	0:
+
+					break;
+				case 1:
+					break;
+				case 2:
+					break;
+				case 3:
+					break;
+			}
+		}
+		else if ($action == "RotateRight"){
+		}
+		else{
+
+		}
+		return false;
+	}
+
 	public function		moveUp($nb)
 	{
 		if ($this->direction == 0)
@@ -47,7 +69,7 @@ class Ship
 
 	public function		rotateLeft()
 	{
-		$this->direction = $this->direction + 1;
+		$this->direction++;
 		$this->direction %= 4;
 	}
 
