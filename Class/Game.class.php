@@ -18,10 +18,51 @@ class Game
 		$this->player2 = new Player(2);
 	}
 
+
+	private function 	between($val ,$b1 , $b2)
+	{
+		if ($b2 < $b1)
+		{
+			if ($val >= $b2 && $val < $b1)
+				return True;
+		}
+		else if ($val >= $b1 && $val < $b2)
+			return True;
+
+		return False;
+	}			
+
+	private function 	rotateWidth($width, $height, $direction)
+	{
+		if ($direction == 1)
+			return (-$height);
+		else if ($direction == 2)
+			return (-$width);
+		else if ($direction == 3)
+			return ($height);
+		else
+			return ($width);
+	}
+
+	private function 	rotateHeight($height, $width, $direction)
+	{
+		if ($direction == 1)
+			return ($width);
+		else if ($direction == 2)
+			return (-$height);
+		else if ($direction == 3)
+			return (-$width);
+		else
+			return ($height);
+	}
+
 	private function	isShipInSquare($ship, $i, $j)
 	{
-		if ($i >= $ship->position['x'] && $i <= $ship->position['x'] + $ship->width
-			&& $j >= $ship->position['y'] && $j <= $ship->position['y'] + $ship->height)
+		$width = $this->rotateWidth($ship->width, $ship->height, $ship->direction);
+		$height = $this->rotateHeight($ship->height, $ship->width, $ship->direction);
+
+		if ($this->between($i, $ship->position['x'], $ship->position['x'] + $width)
+			&& $this->between ($j, $ship->position['y'], $ship->position['y'] + $height))
 			return True;
 		else
 			return False;
