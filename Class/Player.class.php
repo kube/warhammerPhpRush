@@ -23,12 +23,12 @@ class Player
 		}
 		else
 		{
-			array_push($this->ships, new Ship(3, 10, 145 , 80));
-			array_push($this->ships, new Ship(3, 10, 140 , 80));
-			array_push($this->ships, new Ship(2, 7, 135 , 80));
-			array_push($this->ships, new Ship(2, 7, 130 , 80));
-			array_push($this->ships, new Ship(1, 3, 125, 80));
-			array_push($this->ships, new Ship(1, 3, 120, 80));
+			array_push($this->ships, new Ship(3, 10, 145 , 90));
+			array_push($this->ships, new Ship(3, 10, 140 , 90));
+			array_push($this->ships, new Ship(2, 7, 135 , 90));
+			array_push($this->ships, new Ship(2, 7, 130 , 90));
+			array_push($this->ships, new Ship(1, 3, 125, 90));
+			array_push($this->ships, new Ship(1, 3, 120, 90));
 		}
 	}
 
