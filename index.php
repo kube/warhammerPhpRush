@@ -23,24 +23,15 @@ require_once "Class/Game.class.php";
 				if (e.ctrlKey && e.keyCode == 32)
 					$.ajax({
 						type: 'GET',
-						url: 'ajax.php',
-					success: function(output, status, xhr)
+						url: 'ajax/refresh',
+						success: function(output, status, xhr)
 						{
+							console.log(output);
 							game = JSON.parse(output);
 							refreshMap();
 						}
 					});
 			});
-		}
-
-		function	player1()
-		{
-			alert("Coucou le Player 2!");
-		}
-
-		function	player2()
-		{
-			alert("Coucou le Player 1!");
 		}
 
 	</script>

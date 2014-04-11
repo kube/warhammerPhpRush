@@ -2,16 +2,23 @@
 
 class Ship
 {
+	private				$_game;
 	public				$width;
 	public				$height;
 	public				$position;
 	public				$direction;	// 0, 1, 2, 3
+	public				$endurance;
+	public 				$move;
+	public				$power;
+	public				$PV;
 
-	public function		__construct($width, $height, $x, $y)
+	public function		__construct($game, $width, $height, $x, $y)
 	{
+		$this->game = $game;
 		$this->width = $width;
 		$this->height = $height;
 		$this->direction = 0;
+		$this->move = 15;
 		$this->position = array('x' => $x, 'y' => $y);
 	}
 
@@ -35,6 +42,7 @@ class Ship
 			$this->position['x'] = $this->position['x'] - $nb;
 		else if ($this->direction == 3)
 			$this->position['y'] = $this->position['y'] + $nb;
+		$this->move --;
 	}
 
 	public function		rotateLeft()

@@ -18,16 +18,16 @@ class Player
 	public function		__toString()
 	{
 		$string = "{\n"
-			."\"ships\":\n[\n";
+			."\"ships\":\n{\n";
 		$numItems = count($this->ships);
 		$i = 0;
-		foreach ($this->ships as $ship)
+		foreach ($this->ships as $key => $ship)
 		{
-			$string .= $ship;
+			$string .= "\"".$key."\": ".$ship;
 			if (++$i < $numItems)
 				$string .= ",";
 		}
-		$string.= "]\n"
+		$string.= "}\n"
 			."}\n";
 		return $string;
 	}
