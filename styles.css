@@ -32,7 +32,39 @@ body
 	height: 11px;
 	background: #111;
 	border: 1px dotted #2d3649;
-    transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+#board .boardLine .boardSquare.selected
+{
+	-webkit-animation-duration: 1s;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-delay: 0s;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-direction: alternate;
+	-webkit-animation-play-state: running;
+}
+
+#board .boardLine .boardSquare.player1.selected
+{
+	-webkit-animation-name: p1selection;
+}
+
+#board .boardLine .boardSquare.player2.selected
+{
+	-webkit-animation-name: p2selection;
+}
+
+@-webkit-keyframes p1selection
+{
+	0%   {background: #2d889e; border-color: #1d788e;}
+	100% {background: #5cb2ca; border-color: #76ced6;}
+}
+
+@-webkit-keyframes p2selection
+{
+	0%   {background: #9d0e4c; border-color: #8d013c;}
+	100% {background: #b64687; border-color: #cb7897;}
 }
 
 #board .boardLine .boardSquare.ship

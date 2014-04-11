@@ -23,12 +23,14 @@ function 	rotateHeight(height, width, direction)
 		return (height);
 }
 
-function	selectShip(ship)
+function	selectShip(ship, shipNumber, player)
 {
-
+	game.selectedShip = shipNumber;
+	console.log(ship, shipNumber);
+	refreshMap();
 }
 
-function	displayShip(ship, player)
+function	displayShip(ship, shipNumber, player)
 {
 	var width = rotateWidth(ship.width, ship.height, ship.direction);
 	var height = rotateHeight(ship.height, ship.width, ship.direction);
@@ -41,27 +43,63 @@ function	displayShip(ship, player)
 				i < parseInt(ship.position.x + width / 2);
 				i++)
 		{
-			$("#sq_x"+i+"y"+j).addClass("ship player" + player);
+			$("#sq_x"+i+"y"+j)
+				.addClass("ship player" + player)
+				.click(function()
+					{
+						selectShip(ship, shipNumber, player);
+					});
+			if (game.selectedShip && game.selectedShip == shipNumber
+				&& game.currentPlayer == player)
+			{
+				$("#sq_x"+i+"y"+j).addClass("selected");
+			}
 		}
 	}
+}
+
+function		rotateShipLeft(ship)
+{
+	ship.direction = ship.direction + 1;
+	ship.direction %= 4;
+}
+
+function		rotateShipRight(ship)
+{
+	ship.direction += 4;
+	ship.direction --;
+	ship.direction %= 4;
+}
+
+function		moveShipUp(ship, nb)
+{
+	if (ship.direction == 0)
+		ship.position.x = ship.position.x + nb;
+	else if (ship.direction == 1)
+		ship.position.y = ship.position.y - nb;
+	else if (ship.direction == 2)
+		ship.position.x = ship.position.x - nb;
+	else if (ship.direction == 3)
+		ship.position.y = ship.position.y + nb;
+	ship.move --;
 }
 
 function	refreshMap()
 {
 	if (game)
 	{
-		$(".boardSquare").removeClass("ship player1 player2");
+		$(".boardSquare").removeClass("ship player1 player2 selected");
 		// for (var i in game.board.grid)
 		// {
 		// 	for (var j in game.board.grid[i])
 		// 	{
-		// 		game.board.grid[i][j]
-		// 		$("#sq_x"+i+"y"+j).
+		// 		if (game.board.grid[i][j] == 1)
+					
 		// 	}
 		// }
 		for (var i in game.player1.ships)
-			displayShip(game.player1.ships[i], 1);
+			displayShip(game.player1.ships[i], i, 1);
 		for (var i in game.player2.ships)
-			displayShip(game.player2.ships[i], 2);
+			displayShip(game.player2.ships[i], i, 2);
 	}
 }

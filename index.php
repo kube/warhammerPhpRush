@@ -31,6 +31,24 @@ require_once "Class/Game.class.php";
 							refreshMap();
 						}
 					});
+				if (e.keyCode == 38)
+				{
+					moveShipUp(game.player2.ships[game.selectedShip], 1);
+					refreshMap();
+					e.preventDefault();
+				}
+				if (e.keyCode == 37)
+				{
+					rotateShipLeft(game.player2.ships[game.selectedShip]);
+					refreshMap();
+					e.preventDefault();
+				}
+				if (e.keyCode == 39)
+				{
+					rotateShipRight(game.player2.ships[game.selectedShip]);
+					refreshMap();
+					e.preventDefault();
+				}
 			});
 		}
 
