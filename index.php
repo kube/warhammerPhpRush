@@ -9,6 +9,8 @@ require_once "Class/Game.class.php";
 	<title>VoisinWar42K</title>
 	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 	<link rel="stylesheet" href="styles.css">
+
+	<script src="scripts/game.js"></script>
 	<script language="javascript">
 
 		function	initializeGame()
@@ -22,9 +24,10 @@ require_once "Class/Game.class.php";
 					$.ajax({
 						type: 'GET',
 						url: 'ajax.php',
-						success: function(output, status, xhr)
+					success: function(output, status, xhr)
 						{
 							game = JSON.parse(output);
+							refreshMap();
 						}
 					});
 			});

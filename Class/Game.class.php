@@ -18,7 +18,7 @@ class Game
 		$this->_currentPlayer = rand(1, 2);
 	}
 
-	private function 	between($val ,$b1 , $b2)
+	private function 	between($val, $b1 , $b2)
 	{
 		if ($b2 < $b1)
 		{
@@ -61,7 +61,7 @@ class Game
 		$height = $this->rotateHeight($ship->height, $ship->width, $ship->direction);
 
 		if ($this->between($i, $ship->position['x'] - $width / 2, $ship->position['x'] + $width / 2)
-			&& $this->between ($j, $ship->position['y'] - $height / 2, $ship->position['y'] + $height / 2))
+			&& $this->between($j, $ship->position['y'] - $height / 2, $ship->position['y'] + $height / 2))
 			return True;
 		else
 			return False;
@@ -72,18 +72,6 @@ class Game
 		echo "<div";
 		echo " id='sq_x".$i."y".$j."'";
 		echo " class='boardSquare";
-
-		foreach ($this->player1->ships as $ship)
-		{
-			if ($this->isShipInSquare($ship, $i, $j))
-				echo " ship player1' onclick='player1();";
-		}
-		foreach ($this->player2->ships as $ship)
-		{
-			if ($this->isShipInSquare($ship, $i, $j))
-				echo " ship player2' onclick='player2();";
-		}
-
 		echo "'></div>";
 	}
 
@@ -104,10 +92,7 @@ class Game
 		{
 			echo "<div id='line_".$j."' class='boardLine'>";
 			foreach ($line as $i => $square)
-			{
-				// echo "$i $j <br>";
 				$this->displaySquare($square, $i, $j);
-			}
 			echo "</div>";
 		}
 		echo "</div>";

@@ -40,15 +40,14 @@ class Ship
 	public function		rotateLeft()
 	{
 		$this->direction = $this->direction + 1;
-		if ($this->direction > 3)
-			$this->direction = 0;
+		$this->direction %= 4;
 	}
 
 	public function		rotateRight()
 	{
-		$this->direction = $this->direction - 1;
-		if ($this->direction < 0)
-			$this->direction = 3;
+		$this->direction += 4;
+		$this->direction --;
+		$this->direction %= 4;
 	}
 }
 
