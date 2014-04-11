@@ -30,7 +30,7 @@ class Ship
 			."\t}\n";
 	}
 
-	public function		checkMove($action){
+	public function		mapOut($action){
 
 		if ($action == "RotateLeft" || $action == "RotateRight"){
 			switch ($this->direction){
@@ -77,6 +77,64 @@ class Ship
 			}
 		}
 		return false;
+	}
+
+	public function		colision($action){
+		if ($action == "RotateLeft" || $action == "RotateRight"){
+			if ($this->direction == 1 || $this->direction == 3){
+				for ($j = $this->position['y'] - $this->width * 1.5 ; $j <= $this->position['y'] - $this->width * 0.5 ; $j++){
+					for ($i = $this->position['x']  - $this->height / 2 ; $i <= $this->position['x'] + 0.5 * $this->height ; $i++){
+						if ($GLOBALS['game']->board->grid[$j][$i] != 0)
+							return false;
+					}
+				}
+				for ($j = $this->position['y'] + $this->width * 0.5; $j <= $this->position['y'] + $this->width * 1.5 ; $j++){
+					for ($i = $this->position['x'] - $this->height / 2 ; $i <= $this->position['x'] + 0.5 * $this->height ; $i++){
+						if ($GLOBALS['game']->board->grid[$j][$i] != 0)
+							return false;
+					}
+				}
+			}
+			else
+			{
+				// Rotate with direction 0 or 2
+			}
+		}
+		else{
+			switch ($this->direction){
+				case 0:
+					$j = $this->position['y'] - $this->height / 2;
+					for ($i = $this->position['x'] - $this->width / 2; $i < $this->position['x'] + 0.5 * $this->width ; $i++){
+						if ($GLOBALS['game']->board->grid[$j][$i] != 0)
+							return false;
+					}
+					break;
+				case 1:
+					$i = $this->position['x'] - $this->height / 2;
+					for ($j = $this->position['y'] - $this->whidth / 2; $j < $this->position['y'] + $this->width / 2 ; $i++){
+						if ($GLOBALS['game']->board->grid[$j][$i] != 0)
+							return false;
+					}
+					break;
+				case 2:
+					$j  = $this->position['y'] + $this->height / 2;
+					for ($i = $this->position['x'] - $this->width / 2; $i < $this->position['x'] + 0.5 * $this->width ; $i++){
+						if ($GLOBALS['game']->board->grid[$j][$i] != 0)
+							return false;
+					}
+					break;
+				case 3:
+					$i = $this->position['x'] + $this->height / 2;
+					for ($j = $this->position['y'] - $this->whidth / 2; $j < $this->position['y'] + $this->width / 2 ; $i++){
+						if ($GLOBALS['game']->board->grid[$j][$i] != 0)
+							return false;
+					}
+					break;
+				default:
+					break;
+			}
+		}
+		return true;
 	}
 
 	public function		moveUp($nb)
