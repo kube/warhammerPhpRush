@@ -24,6 +24,32 @@ class Ship
 			."\t\t\"position\": {\"x\": ".$this->position['x'].", \"y\": ".$this->position['y']."}\n"
 			."\t}\n";
 	}
+
+	public function		moveUp($nb)
+	{
+		if ($this->direction == 0)
+			$this->position['x'] = $this->position['x'] + $nb;
+		else if ($this->direction == 1)
+			$this->position['y'] = $this->position['y'] - $nb;
+		else if ($this->direction == 2)
+			$this->position['x'] = $this->position['x'] - $nb;
+		else if ($this->direction == 3)
+			$this->position['y'] = $this->position['y'] + $nb;
+	}
+
+	public function		rotateLeft()
+	{
+		$this->direction = $this->direction + 1;
+		if ($this->direction > 3)
+			$this->direction = 0;
+	}
+
+	public function		rotateRight()
+	{
+		$this->direction = $this->direction - 1;
+		if ($this->direction < 0)
+			$this->direction = 3;
+	}
 }
 
 ?>
