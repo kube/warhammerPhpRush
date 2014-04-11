@@ -12,12 +12,11 @@ class Game
 
 	public function		__construct()
 	{
-		$this->_currentPlayer = rand(1, 2);
 		$this->_board = new Board(150, 90);
 		$this->player1 = new Player(1);
 		$this->player2 = new Player(2);
+		$this->_currentPlayer = rand(1, 2);
 	}
-
 
 	private function 	between($val ,$b1 , $b2)
 	{
@@ -30,7 +29,7 @@ class Game
 			return True;
 
 		return False;
-	}			
+	}
 
 	private function 	rotateWidth($width, $height, $direction)
 	{
@@ -82,6 +81,16 @@ class Game
 				echo " ship player2' onclick='player2();";
 		}
 		echo "'></div>";
+	}
+
+	public function		__toString()
+	{
+		return "{"
+			.'"currentPlayer": '.$this->_currentPlayer.",\n"
+			.'"board": '.$this->_board.",\n"
+			.'"player1": '.$this->player1.",\n"
+			.'"player2": '.$this->player2."\n"
+			."}";
 	}
 
 	public function		displayBoard()

@@ -7,6 +7,7 @@ require_once "Class/Game.class.php";
 <html>
 <head>
 	<title>VoisinWar42K</title>
+	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 	<link rel="stylesheet" href="styles.css">
 	<script language="javascript">
 
@@ -14,10 +15,18 @@ require_once "Class/Game.class.php";
 		{
 			document.addEventListener("keydown", function(e)
 			{
+				console.log(e.keyCode);
 				if (e.ctrlKey && e.keyCode == 46)
-				{
 					window.location = "reset";
-				}
+				if (e.ctrlKey && e.keyCode == 32)
+					$.ajax({
+						type: 'GET',
+						url: 'ajax.php',
+						success: function(output, status, xhr)
+						{
+							game = JSON.parse(output);
+						}
+					});
 			});
 		}
 

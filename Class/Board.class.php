@@ -15,6 +15,35 @@ class Board
 		for ($i = 0; $i < $this->height; $i++)
 			$this->grid[$i] = array_fill(0, $this->width, 0);
 	}
+
+	public function		__gridToJSON()
+	{
+		$string = "[";
+		foreach ($this->grid as $j => $line)
+		{
+			$string .= "[";
+			foreach ($line as $i => $square)
+			{
+				$string .= $square;
+				if ($i < $this->width - 1)
+					$string .= ",";
+			}
+			$string .= "]";
+			if ($j < $this->height - 1)
+				$string .= ",";
+		}
+		$string .= "]";
+		return $string;
+	}
+
+	public function		__toString()
+	{
+		return "{\n"
+			."\t\"width\": ".$this->width.","
+			."\t\"height\": ".$this->height.","
+			."\t\"grid\":\n".$this->__gridToJSON()."\n"
+			."}\n";
+	}
 }
 
 ?>
