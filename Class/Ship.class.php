@@ -11,19 +11,19 @@ class Ship
 	{
 		$this->width = $width;
 		$this->height = $height;
-		$this->direction = 3;
+		$this->direction = 0;
 		$this->position = array('x' => $x, 'y' => $y);
 	}
 
-	public function 	moveUp(){
+	public function 	moveUp($nb){
 		if ($this->direction == 0)
-			$this->position['x'] = $this->position['x'] + 1;
+			$this->position['x'] = $this->position['x'] + $nb;
 		else if ($this->direction == 1)
-			$this->position['y'] = $this->position['y'] - 1;
+			$this->position['y'] = $this->position['y'] - $nb;
 		else if ($this->direction == 2)
-			$this->position['x'] = $this->position['x'] - 1;
+			$this->position['x'] = $this->position['x'] - $nb;
 		else if ($this->direction == 3)
-			$this->position['y'] = $this->position['y'] + 1;
+			$this->position['y'] = $this->position['y'] + $nb;
 	}
 
 	public function 	rotateLeft(){
