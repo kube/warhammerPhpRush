@@ -16,7 +16,14 @@ class Ship
 	}
 
 	public function 	moveUp(){
-		$this->position['x'] = $this->position['x'] + 1;
+		if ($this->direction == 0)
+			$this->position['x'] = $this->position['x'] + 1;
+		else if ($this->direction == 1)
+			$this->position['y'] = $this->position['y'] - 1;
+		else if ($this->direction == 2)
+			$this->position['x'] = $this->position['x'] - 1;
+		else if ($this->direction == 3)
+			$this->position['y'] = $this->position['y'] + 1;
 	}
 
 	public function 	rotateLeft(){
