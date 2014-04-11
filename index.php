@@ -44,10 +44,6 @@ if (!array_key_exists('game', $_SESSION))
 	$_SESSION['game'] = serialize(new Game());
 
 $game = unserialize($_SESSION['game']);
-// $game->player1->ships[0]->position['x']++;
-// $game->player1->ships[0]->position['y']--;
-$game->player1->ships[0]->direction++;
-$game->player1->ships[0]->direction %= 4;
 $game->displayBoard();
 
 // Save Current Game
