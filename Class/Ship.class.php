@@ -2,7 +2,6 @@
 
 class Ship
 {
-	private				$_game;
 	public				$width;
 	public				$height;
 	public				$position;
@@ -12,9 +11,8 @@ class Ship
 	public				$power;
 	public				$PV;
 
-	public function		__construct($game, $width, $height, $x, $y)
+	public function		__construct($width, $height, $x, $y)
 	{
-		$this->game = $game;
 		$this->width = $width;
 		$this->height = $height;
 		$this->direction = 0;
@@ -43,6 +41,11 @@ class Ship
 		else if ($this->direction == 3)
 			$this->position['y'] = $this->position['y'] + $nb;
 		$this->move --;
+	}
+
+	public function		testGlobal()
+	{
+		return $GLOBALS['game']->player1;
 	}
 
 	public function		rotateLeft()
