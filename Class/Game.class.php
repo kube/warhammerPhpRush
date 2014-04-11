@@ -13,7 +13,7 @@ class Game
 	public function		__construct()
 	{
 		$this->_currentPlayer = rand(1, 2);
-		$this->_board = new Board(150, 100);
+		$this->_board = new Board(150, 90);
 		$this->player1 = new Player(1);
 		$this->player2 = new Player(2);
 	}
@@ -61,8 +61,8 @@ class Game
 		$width = $this->rotateWidth($ship->width, $ship->height, $ship->direction);
 		$height = $this->rotateHeight($ship->height, $ship->width, $ship->direction);
 
-		if ($this->between($i, $ship->position['x'], $ship->position['x'] + $width)
-			&& $this->between ($j, $ship->position['y'], $ship->position['y'] + $height))
+		if ($this->between($i, $ship->position['x'] - $width / 2, $ship->position['x'] + $width / 2)
+			&& $this->between ($j, $ship->position['y'] - $height / 2, $ship->position['y'] + $height / 2))
 			return True;
 		else
 			return False;
