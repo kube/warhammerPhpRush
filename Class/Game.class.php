@@ -69,7 +69,10 @@ class Game
 
 	private function	displaySquare($square, $i, $j)
 	{
-		echo "<div class='boardSquare";
+		echo "<div";
+		echo " id='sq_x".$i."y".$j."'";
+		echo " class='boardSquare";
+
 		foreach ($this->player1->ships as $ship)
 		{
 			if ($this->isShipInSquare($ship, $i, $j))
@@ -80,6 +83,7 @@ class Game
 			if ($this->isShipInSquare($ship, $i, $j))
 				echo " ship player2' onclick='player2();";
 		}
+
 		echo "'></div>";
 	}
 
@@ -98,7 +102,7 @@ class Game
 		echo "<div id='board'>";
 		foreach ($this->_board->grid as $j => $line)
 		{
-			echo "<div class='boardLine'>";
+			echo "<div class='boardLine".$j."'>";
 			foreach ($line as $i => $square)
 			{
 				// echo "$i $j <br>";
