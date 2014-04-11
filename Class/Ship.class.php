@@ -32,24 +32,51 @@ class Ship
 			."\t}\n";
 	}
 
-	public function		chechkMove($action){
-		if ($action == "RotateLeft"){
-			switch($this->direction){
-				case	0:
+	public function		checkMove($action){
 
+		if ($action == "RotateLeft" || $action == "RotateRight"){
+			switch ($this->direction){
+				case 0:
+					if ($this->position['x'] - $this->height / 2 >= 0
+						&& $this->position['x'] + $this->height / 2 <= $GLOBALS['game']->board->width)
+						return true;
 					break;
 				case 1:
+					if ($this->position['y'] + $this->height / 2 <= $GLOBALS['game']->board->height
+						&& $this->position['y'] - $this->height / 2 >= 0)
+						return true;
 					break;
 				case 2:
+					if ($this->position['x'] + $this->height / 2 <= $GLOBALS['game']->board->width
+						&& $this->position['x'] - $this->height / 2 >= 0)
+						return true;
 					break;
 				case 3:
+					if ($this->position['y'] - $this->height / 2 >= 0
+						&& $this->position['y'] + $this->height / 2 <= $GLOBALS['game']->board->height)
+						return true;
+					break;
+				default:
 					break;
 			}
 		}
-		else if ($action == "RotateRight"){
-		}
 		else{
-
+			switch ($this->direction){
+				case 0:
+				if ($this->position['y'] + 1 >= 0)
+					return true;
+				case 1:
+					if ($this->position['x'] - 1 >= 0)
+						return true;
+				case 2:
+					if ($this->position['y'] + 1 <= $GLOBALS['game']->height)
+						return true;
+				case 3:
+					if ($this->position['x'] + 1 <= $GLOBALS['game']->width)
+						return true;
+				default:
+					break;
+			}
 		}
 		return false;
 	}
