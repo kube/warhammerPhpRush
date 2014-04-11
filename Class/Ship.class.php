@@ -43,11 +43,6 @@ class Ship
 		$this->move --;
 	}
 
-	public function		testGlobal()
-	{
-		return $GLOBALS['game']->player1;
-	}
-
 	public function		rotateLeft()
 	{
 		$this->direction = $this->direction + 1;
