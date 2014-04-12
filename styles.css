@@ -23,6 +23,25 @@ body
 	-webkit-transform: rotateX(13deg) rotateZ(180deg);
 }
 
+#boardWrapper h1
+{
+	font: 25px "Montserrat", Helvetica, Arial, sans-serif;
+	font-weight: 200;
+	text-align: center;
+}
+
+#boardWrapper h1.p1
+{
+	color: #2d889e;
+}
+
+#boardWrapper h1.p2
+{
+	color: #9d0e4c;
+}
+
+
+
 #board .boardLine
 {
 	width: 100%;

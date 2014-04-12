@@ -144,15 +144,21 @@ function	initializeGame()
 				e.preventDefault();
 				break;
 
-			case 100:
-				$("#board").removeClass("reverse");
-				game.currentPlayer = 2;
+			case 13:
+				game.currentPlayer = (game.currentPlayer + 1) % 2;
+				refreshMap();
 				break;
 
-			case 102:
-				$("#board").addClass("reverse");
-				game.currentPlayer = 1;
-				break;
+			// case 100:
+			// 	game.selectedShip = null;
+			// 	refreshMap();
+			// 	break;
+
+			// case 102:
+			// 	game.currentPlayer = 1;
+			// 	game.selectedShip = null;
+			// 	refreshMap();
+			// 	break;
 		}
 
 	});
@@ -162,6 +168,20 @@ function	refreshMap()
 {
 	if (game)
 	{
+		if (game.currentPlayer == 2)
+		{	
+			$("#board").removeClass("reverse");
+			$("#playerTurn").text("Player 2")
+				.removeClass()
+				.addClass("p2");
+		}
+		else
+		{
+			$("#board").addClass("reverse");
+			$("#playerTurn").text("Player 1")
+				.removeClass()
+				.addClass("p1");
+		}
 		$(".boardSquare").removeClass("ship player1 player2 selected").unbind("click");
 		// for (var i in game.board.grid)
 		// {
