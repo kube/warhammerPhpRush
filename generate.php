@@ -56,16 +56,4 @@ function	generateMap($height, $width){
 	}
 	return ($tab);
 }
-
-$tab = generateMap(100, 150);
-
-foreach ($tab as $elem)
-{
-	foreach ($elem as $value)
-	{
-		echo $value;
-	}
-	echo "\n";
-}
-
 ?>
