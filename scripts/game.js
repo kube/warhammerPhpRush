@@ -73,13 +73,13 @@ function		rotateShipRight(ship)
 
 function		moveShipUp(ship, nb)
 {
-	if (ship.direction == 0)
+	if (ship.direction == 3)
 		ship.position.x = ship.position.x + nb;
-	else if (ship.direction == 1)
+	else if (ship.direction == 0)
 		ship.position.y = ship.position.y - nb;
-	else if (ship.direction == 2)
+	else if (ship.direction == 1)
 		ship.position.x = ship.position.x - nb;
-	else if (ship.direction == 3)
+	else if (ship.direction == 2)
 		ship.position.y = ship.position.y + nb;
 	ship.move --;
 }
