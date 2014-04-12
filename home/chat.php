@@ -20,6 +20,8 @@ $(document).ready(function() {
 	if (isset($_POST['message']))
 	{
 		$msg = "<span class='mess'><span class='name'>".$user."</span>: ".$_POST['message']."</span><br />".PHP_EOL;
+		if(!file_exists('chat.txt'))
+			fopen('chat.txt', 'x');
 		file_put_contents('chat.txt', $msg, FILE_APPEND);
 	}
 }

@@ -15,14 +15,14 @@ class Mysql
 			$this->_Create_bd($kwargs);
 		else if (array_key_exists('co', $kwargs))
 		{
-			$this->_co = new PDO('mysql:host='.$this->_host.';dbname='.$this->_dbName, $kwargs['login'], $kwargs['passwd'], array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+			$this->_co = new PDO('mysql:host='.$kwargs['host'].';dbname='.$this->_dbName, $kwargs['login'], $kwargs['passwd'], array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 			return ($this);
 		}		
 	}
 
 	private function _Create_bd(array $kwargs)
 	{
-		$this->_co = new PDO('mysql:host='.$this->_host.';', $kwargs['login'], $kwargs['passwd'], array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+		$this->_co = new PDO('mysql:host='.$kwargs['host'].';', $kwargs['login'], $kwargs['passwd'], array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 		$query = $this->_co->prepare(" DROP DATABASE IF EXISTS ".$this->_dbName."; CREATE DATABASE IF NOT EXISTS ".$this->_dbName.";");
 		$query->execute();
 		$table_users = "USE ".$this->_dbName.";".file_get_contents('table_users.sql');
