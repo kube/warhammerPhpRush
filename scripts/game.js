@@ -1,10 +1,10 @@
 
-function	getShipLimits(ship, rotate)
+function	getShipLimits(ship)
 {
 	width = ship.width;
 	height = ship.height;
 
-	if (ship.direction % 2 ^ rotate)
+	if (ship.direction % 2)
 		width = [height, height = width][0]; // Swap
 	limits = new Array();
 	limits.x0 = parseInt(ship.position.x - width / 2);
@@ -29,17 +29,21 @@ function	displayShip(ship, shipNumber, player)
 	{
 		for (var i = limits.x0; i < limits.x1; i++)
 		{
+			if (game.selectedShip && game.selectedShip == shipNumber
+				&& game.currentPlayer == player)
+			{
+				var el		= $("#sq_x"+i+"y"+j);
+				var newone	= el.clone(true);
+				el.before(newone);
+				el.remove();
+				$("#sq_x"+i+"y"+j).addClass("selected");
+			}
 			$("#sq_x"+i+"y"+j)
 				.addClass("ship player" + player)
 				.click(function()
 					{
 						selectShip(ship, shipNumber, player);
 					});
-			if (game.selectedShip && game.selectedShip == shipNumber
-				&& game.currentPlayer == player)
-			{
-				$("#sq_x"+i+"y"+j).addClass("selected");
-			}
 		}
 	}
 }
@@ -57,17 +61,42 @@ function		rotateShipRight(ship)
 	ship.direction %= 4;
 }
 
+function		checkOverflow(ship, action)
+{
+	var limits = getShipLimits(ship);
+
+	console.log(limits);
+
+	if (limits.x0 < 0 || limits.x1 > game.board.width)
+	{
+		console.log("a");
+		return true;
+	}
+	if (limits.y0 < 0 || limits.y1 > game.board.height)
+	{
+		console.log("b");
+		return true;
+	}
+	return false;
+}
+
+
 function		moveShipUp(ship, nb)
 {
+	var position = $.extend(true, {}, ship.position);
+
 	if (ship.direction == 0)
-		ship.position.y = ship.position.y + nb;
+		ship.position.y += nb;
 	else if (ship.direction == 1)
-		ship.position.x = ship.position.x + nb;
+		ship.position.x += nb;
 	else if (ship.direction == 2)
-		ship.position.y = ship.position.y - nb;
+		ship.position.y -= nb;
 	else if (ship.direction == 3)
-		ship.position.x = ship.position.x - nb;
-	ship.move --;
+		ship.position.x -= nb;
+	if (checkOverflow(ship))
+		$.extend(ship.position, position);
+	else
+		ship.move --;
 }
 
 function	initializeGame()
@@ -113,6 +142,16 @@ function	initializeGame()
 				rotateShipRight(game['player'+game.currentPlayer].ships[game.selectedShip]);
 				refreshMap();
 				e.preventDefault();
+				break;
+
+			case 100:
+				$("#board").removeClass("reverse");
+				game.currentPlayer = 2;
+				break;
+
+			case 102:
+				$("#board").addClass("reverse");
+				game.currentPlayer = 1;
 				break;
 		}
 

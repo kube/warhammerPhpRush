@@ -32,7 +32,7 @@ class Ship
 			."\t}\n";
 	}
 
-	public function		getShipLimits($rotate)
+	public function		getLimits($rotate)
 	{
 		$width = $this->width;
 		$height = $this->height;
@@ -47,18 +47,14 @@ class Ship
 		return($limits);
 	}
 
-	public function		mapOut($action)
+	public function		checkOverflow($action)
 	{
 		global $game;
 
-		if ($action == "RotateLeft" || $action == "RotateRight")
-			$limits = getShipLimits(1);
-		else
-			$limits = getShipLimits();
-
-		if ($x0 < 0 || $x1 >= $game->board->width)
+		$limits = $this->getLimits();
+		if ($limits['x0'] < 0 || $limits['x1'] > $game->board->width)
 			return True;
-		if ($y0 < 0 || $y1 >= $game->board->height)
+		if ($limits['y0'] < 0 || $limits['y1'] > $game->board->height)
 			return True;
 		return False;
 	}
