@@ -21,6 +21,10 @@ spl_autoload_register(function ($class) {
 	<link rel='stylesheet' type='text/css' href='style.css'>
 </head>
 <body>
+<div id="header">
+<h2> Voisin WAR 42K </h2>
+<h4> Welcome in a new 42 neighborhood...</h4>
+</div>
 <div id="user_block">
 <?php
 	if (isset($_POST['add_user']))

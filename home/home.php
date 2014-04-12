@@ -25,7 +25,7 @@ function install()
 				<input type="text" name="host" placeholder="Host (local.42.fr)"\>
 				<input type="text" name="login" placeholder="login BDD"\>
 				<input type="password" name="passwd" placeholder="Password"\>
-				<input type="submit" value="Installez la Bdd." name="install">
+				<input type="submit" class="submit" value="Installez la Bdd." name="install">
 			</form>
 		</div>
 		<?php
@@ -93,10 +93,12 @@ function log_in($login, $passwd)
 
 function welcome_user($user)
 {
+	$usr = $user['login'];
 	echo "<h3>Welcome ".$user['login']." !</h3>";
+	echo "<a class='button' href='../index.php?user=$usr'> Play </a>";
 	?>
 	<form method="post" action="index.php">
-		<input type="submit" name="log_out" value="Log Out" \>
+		<input type="submit" class="submit" name="log_out" value="Log Out" \>
 	</form>
 	<?php
 	chat($user['login']);
@@ -108,10 +110,10 @@ function form_log()
 	<form method="post" action="index.php">
 			<input type="text" name="login" placeholder="Login" \>
 			<input type="password" name="passwd" placeholder="Password" \>
-			<input type="submit" value="Log_in" name="log_in" \>
+			<input type="submit" class="submit" value="Log_in" name="log_in" \>
 	</form>
 	<form method="post" action="index.php">
-		<input type="submit" name="destroy" value="Creer un Nouveau Compte" \>
+		<input type="submit" class="submit" name="destroy" value="Creer un Nouveau Compte" \>
 	</form>
 	<?php
 }
@@ -125,7 +127,7 @@ function subscribe()
 		<input type="text" name="mail" placeholder="Mail" \>
 		<input type="password" name="passwd" placeholder="Password" \>
 		<input type="password" name="passwd_v" placeholder="Check Password" \>
-		<input type="submit" value="Creer un compte." name="add_user" \>
+		<input type="submit" class="submit" value="Creer un compte." name="add_user" \>
 	</form>
 	<?php
 }
