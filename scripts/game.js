@@ -145,20 +145,9 @@ function	initializeGame()
 				break;
 
 			case 13:
-				game.currentPlayer = (game.currentPlayer + 1) % 2;
+				game.currentPlayer = game.currentPlayer % 2 +1;
 				refreshMap();
 				break;
-
-			// case 100:
-			// 	game.selectedShip = null;
-			// 	refreshMap();
-			// 	break;
-
-			// case 102:
-			// 	game.currentPlayer = 1;
-			// 	game.selectedShip = null;
-			// 	refreshMap();
-			// 	break;
 		}
 
 	});
@@ -183,14 +172,15 @@ function	refreshMap()
 				.addClass("p1");
 		}
 		$(".boardSquare").removeClass("ship player1 player2 selected").unbind("click");
-		// for (var i in game.board.grid)
-		// {
-		// 	for (var j in game.board.grid[i])
-		// 	{
-		// 		if (game.board.grid[i][j] == 1)
-					
-		// 	}
-		// }
+		for (var i in game.board.grid)
+		{
+			for (var j in game.board.grid[i])
+			{
+				if (game.board.grid[i][j])
+					$("#sq_x"+j+"y"+i)
+						.addClass("obstacle");
+			}
+		}
 		for (var i in game.player1.ships)
 			displayShip(game.player1.ships[i], i, 1);
 		for (var i in game.player2.ships)

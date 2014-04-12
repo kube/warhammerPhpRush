@@ -60,6 +60,25 @@ body
 	transition: all 0.5s ease;
 }
 
+#board .boardLine .boardSquare.obstacle
+{
+	background: #2e3339;
+	border: 1px dotted #1e2a33;
+	-webkit-animation-name: obstacleFloat;
+	-webkit-animation-duration: 2s;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-delay: 0s;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-direction: alternate;
+	-webkit-animation-play-state: running;
+}
+
+@-webkit-keyframes obstacleFloat
+{
+	0%   {}
+	100% {-webkit-transform: translateY(-5px);}
+}
+
 #board .boardLine .boardSquare.selected
 {
 	-webkit-animation-duration: 0.5s;
