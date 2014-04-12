@@ -2,15 +2,9 @@
 
 function chat($user)
 {
-	echo "<div id='chat'><div id='messages'></div>";
+	echo "<div id='chat'><div id='messages' onLoad='scroll()' ></div>";
 	?>
 <script type="text/javascript">
-$(document).ready(function() {
-	setInterval(function() {
-		$('#messages').load('get_chat.php');
-		$('#messages').scrollBottom = 1000;
-	}, 300); 
-});
 
 </script>
 	
@@ -24,7 +18,9 @@ $(document).ready(function() {
 		$msg = "<span class='mess'><span class='name'>".$user."</span>: ".$_POST['message']."</span><hr />".PHP_EOL;
 		if(!file_exists('chat.txt'))
 			fopen('chat.txt', 'x');
-		file_put_contents('chat.txt', $msg, FILE_APPEND);
+		$txt = $msg.file_get_contents('chat.txt');
+		print_r($txt);
+		file_put_contents('chat.txt', $txt);
 	}
 	echo "</div>";
 }

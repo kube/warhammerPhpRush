@@ -89,6 +89,15 @@ input.submit:hover{
 	overflow: auto;
 }
 
+#messs
+{
+	/* width: 500px; */
+	height: 250px;
+	/* border: 1px solid black; */
+	word-wrap: break-word;
+	overflow: auto;
+}
+
 #chat{
 	background: rgb(207, 207, 207);
 	width: 550px;

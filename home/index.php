@@ -19,6 +19,22 @@ spl_autoload_register(function ($class) {
 	<title>VoisinWar42K</title>
 	<meta http-equiv='Content-Type' content='text/html' charset='utf-8'\>
 	<link rel='stylesheet' type='text/css' href='style.css'>
+	<script type="text/javascript">
+
+	
+	$(document).ready(function() {
+	setInterval(function() {
+		$('#messages').load('get_chat.php');
+	}, 300); 
+});
+	function scroll()
+	{
+		alert("scroll");
+		var height = document.getElementById('messages').scrollHeight;
+		document.getElementById('messages').scrollTo(0, height);
+	}
+
+	</script>
 </head>
 <body>
 <div id="header">
