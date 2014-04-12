@@ -9,50 +9,7 @@ require_once "Class/Game.class.php";
 	<title>VoisinWar42K</title>
 	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 	<link rel="stylesheet" href="styles.css">
-
 	<script src="scripts/game.js"></script>
-	<script language="javascript">
-
-		function	initializeGame()
-		{
-			document.addEventListener("keydown", function(e)
-			{
-				console.log(e.keyCode);
-				if (e.ctrlKey && e.keyCode == 46)
-					window.location = "reset";
-				if (e.ctrlKey && e.keyCode == 32)
-					$.ajax({
-						type: 'GET',
-						url: 'ajax/refresh',
-						success: function(output, status, xhr)
-						{
-							console.log(output);
-							game = JSON.parse(output);
-							refreshMap();
-						}
-					});
-				if (e.keyCode == 38)
-				{
-					moveShipUp(game.player2.ships[game.selectedShip], 1);
-					refreshMap();
-					e.preventDefault();
-				}
-				if (e.keyCode == 37)
-				{
-					rotateShipLeft(game.player2.ships[game.selectedShip]);
-					refreshMap();
-					e.preventDefault();
-				}
-				if (e.keyCode == 39)
-				{
-					rotateShipRight(game.player2.ships[game.selectedShip]);
-					refreshMap();
-					e.preventDefault();
-				}
-			});
-		}
-
-	</script>
 </head>
 <body onLoad="initializeGame();">
 <div id="boardWrapper">

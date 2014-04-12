@@ -1,26 +1,17 @@
 
-function 	rotateWidth(width, height, direction)
+function	getShipLimits(ship, rotate)
 {
-	if (direction == 1)
-		return (height);
-	else if (direction == 2)
-		return (width);
-	else if (direction == 3)
-		return (height);
-	else
-		return (width);
-}
+	width = ship.width;
+	height = ship.height;
 
-function 	rotateHeight(height, width, direction)
-{
-	if (direction == 1)
-		return (width);
-	else if (direction == 2)
-		return (height);
-	else if (direction == 3)
-		return (width);
-	else
-		return (height);
+	if (ship.direction % 2 ^ rotate)
+		width = [height, height = width][0]; // Swap
+	limits = new Array();
+	limits.x0 = parseInt(ship.position.x - width / 2);
+	limits.x1 = parseInt(ship.position.x + width / 2);
+	limits.y0 = parseInt(ship.position.y - height / 2);
+	limits.y1 = parseInt(ship.position.y + height / 2);
+	return(limits);
 }
 
 function	selectShip(ship, shipNumber, player)
@@ -32,16 +23,11 @@ function	selectShip(ship, shipNumber, player)
 
 function	displayShip(ship, shipNumber, player)
 {
-	var width = rotateWidth(ship.width, ship.height, ship.direction);
-	var height = rotateHeight(ship.height, ship.width, ship.direction);
+	var limits = getShipLimits(ship);
 
-	for (var j = parseInt(ship.position.y - height / 2);
-			j < parseInt(ship.position.y + height / 2);
-			j++)
+	for (var j = limits.y0; j < limits.y1; j++)
 	{
-		for (var i = parseInt(ship.position.x - width / 2);
-				i < parseInt(ship.position.x + width / 2);
-				i++)
+		for (var i = limits.x0; i < limits.x1; i++)
 		{
 			$("#sq_x"+i+"y"+j)
 				.addClass("ship player" + player)
@@ -74,21 +60,70 @@ function		rotateShipRight(ship)
 function		moveShipUp(ship, nb)
 {
 	if (ship.direction == 0)
-		ship.position.x = ship.position.x + nb;
-	else if (ship.direction == 1)
-		ship.position.y = ship.position.y - nb;
-	else if (ship.direction == 2)
-		ship.position.x = ship.position.x - nb;
-	else if (ship.direction == 3)
 		ship.position.y = ship.position.y + nb;
+	else if (ship.direction == 1)
+		ship.position.x = ship.position.x + nb;
+	else if (ship.direction == 2)
+		ship.position.y = ship.position.y - nb;
+	else if (ship.direction == 3)
+		ship.position.x = ship.position.x - nb;
 	ship.move --;
+}
+
+function	initializeGame()
+{
+	document.addEventListener("keydown", function(e)
+	{
+		console.log(e.keyCode);
+
+		switch (e.keyCode)
+		{
+			case 46:
+				if (e.ctrlKey)
+					window.location = "reset";
+				break;
+
+			case 32:
+				if (e.ctrlKey)
+					$.ajax({
+						type: 'GET',
+						url: 'ajax/refresh',
+						success: function(output, status, xhr)
+						{
+							console.log(output);
+							game = JSON.parse(output);
+							refreshMap();
+						}
+					});
+				break;
+
+			case 38:
+				moveShipUp(game['player'+game.currentPlayer].ships[game.selectedShip], 1);
+				refreshMap();
+				e.preventDefault();
+				break;
+
+			case 37:
+				rotateShipLeft(game['player'+game.currentPlayer].ships[game.selectedShip]);
+				refreshMap();
+				e.preventDefault();
+				break;
+
+			case 39:
+				rotateShipRight(game['player'+game.currentPlayer].ships[game.selectedShip]);
+				refreshMap();
+				e.preventDefault();
+				break;
+		}
+
+	});
 }
 
 function	refreshMap()
 {
 	if (game)
 	{
-		$(".boardSquare").removeClass("ship player1 player2 selected");
+		$(".boardSquare").removeClass("ship player1 player2 selected").unbind("click");
 		// for (var i in game.board.grid)
 		// {
 		// 	for (var j in game.board.grid[i])

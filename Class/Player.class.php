@@ -12,24 +12,6 @@ class Player
 	{
 		$this->_player = $player;
 		$this->ships = array();
-		if ($player == 1)
-		{
-			array_push($this->ships, new Ship(3, 10, 5 , 10));
-			array_push($this->ships, new Ship(3, 10, 10 , 10));
-			array_push($this->ships, new Ship(2, 7, 15 , 10));
-			array_push($this->ships, new Ship(2, 7, 20 , 10));
-			array_push($this->ships, new Ship(1, 3, 25, 10));
-			array_push($this->ships, new Ship(1, 3, 30, 10));
-		}
-		else
-		{
-			array_push($this->ships, new Ship(3, 10, 145 , 90));
-			array_push($this->ships, new Ship(3, 10, 140 , 90));
-			array_push($this->ships, new Ship(2, 7, 135 , 90));
-			array_push($this->ships, new Ship(2, 7, 130 , 90));
-			array_push($this->ships, new Ship(1, 3, 125, 90));
-			array_push($this->ships, new Ship(1, 3, 120, 90));
-		}
 	}
 
 	public function		__toString()
@@ -47,6 +29,11 @@ class Player
 		$string.= "}\n"
 			."}\n";
 		return $string;
+	}
+
+	public function		createShip($width, $height, $x, $y, $direction)
+	{
+		array_push($this->ships, new Ship($width, $height, $x, $y, $direction));
 	}
 }
 

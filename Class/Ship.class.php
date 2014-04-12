@@ -1,5 +1,7 @@
 <?php
 
+require dirname(__FILE__)."/../lib/shipGetLimits.php";
+
 class Ship
 {
 	public				$width;
@@ -11,11 +13,11 @@ class Ship
 	public				$power;
 	public				$PV;
 
-	public function		__construct($width, $height, $x, $y)
+	public function		__construct($width, $height, $x, $y, $direction)
 	{
 		$this->width = $width;
 		$this->height = $height;
-		$this->direction = 0;
+		$this->direction = $direction;
 		$this->move = 15;
 		$this->position = array('x' => $x, 'y' => $y);
 	}
@@ -30,57 +32,35 @@ class Ship
 			."\t}\n";
 	}
 
+	public function		getShipLimits($rotate)
+	{
+		$width = $this->width;
+		$height = $this->height;
+
+		if ($this->direction % 2 XOR $rotate)
+			list($width, $height) = array($height, $width);
+		$limits = array();
+		$limits['x0'] = intVal($this->position['x'] - $width / 2);
+		$limits['x1'] = intVal($this->position['x'] + $width / 2);
+		$limits['y0'] = intVal($this->position['y'] - $height / 2);
+		$limits['y1'] = intVal($this->position['y'] + $height / 2);
+		return($limits);
+	}
+
 	public function		mapOut($action)
 	{
+		global $game;
+
 		if ($action == "RotateLeft" || $action == "RotateRight")
-		{
-			switch ($this->direction)
-			{
-				case 0:
-					if ($this->position['x'] - $this->height / 2 >= 0
-						&& $this->position['x'] + $this->height / 2 <= $GLOBALS['game']->board->width)
-						return true;
-					break;
-				case 1:
-					if ($this->position['y'] + $this->height / 2 <= $GLOBALS['game']->board->height
-						&& $this->position['y'] - $this->height / 2 >= 0)
-						return true;
-					break;
-				case 2:
-					if ($this->position['x'] + $this->height / 2 <= $GLOBALS['game']->board->width
-						&& $this->position['x'] - $this->height / 2 >= 0)
-						return true;
-					break;
-				case 3:
-					if ($this->position['y'] - $this->height / 2 >= 0
-						&& $this->position['y'] + $this->height / 2 <= $GLOBALS['game']->board->height)
-						return true;
-					break;
-				default:
-					break;
-			}
-		}
+			$limits = getShipLimits(1);
 		else
-		{
-			switch ($this->direction)
-			{
-				case 0:
-				if ($this->position['y'] + 1 >= 0)
-					return true;
-				case 1:
-					if ($this->position['x'] - 1 >= 0)
-						return true;
-				case 2:
-					if ($this->position['y'] + 1 <= $GLOBALS['game']->height)
-						return true;
-				case 3:
-					if ($this->position['x'] + 1 <= $GLOBALS['game']->width)
-						return true;
-				default:
-					break;
-			}
-		}
-		return false;
+			$limits = getShipLimits();
+
+		if ($x0 < 0 || $x1 >= $game->board->width)
+			return True;
+		if ($y0 < 0 || $y1 >= $game->board->height)
+			return True;
+		return False;
 	}
 
 	public function		colision($action){
@@ -165,7 +145,7 @@ class Ship
 	public function		rotateRight()
 	{
 		$this->direction += 4;
-		$this->direction --;
+		$this->direction--;
 		$this->direction %= 4;
 	}
 }
