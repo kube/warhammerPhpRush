@@ -1,5 +1,5 @@
 <?php
-
+include '../generate.php';
 class Board
 {
 	public				$width;
@@ -10,10 +10,7 @@ class Board
 	{
 		$this->width = intval($width);
 		$this->height = intval($height);
-		$this->grid = array();
-
-		for ($i = 0; $i < $this->height; $i++)
-			$this->grid[$i] = array_fill(0, $this->width, 0);
+		$this->grid = generateMap($height, $width);
 	}
 
 	public function		__gridToJSON()
