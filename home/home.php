@@ -12,7 +12,7 @@ function install()
 {
 	if (isset($_POST['install']))
 	{
-		$sv = array('login' => 'root', 'passwd' => 'public6542ENEMY', 'create' => 'OK');
+		$sv = array('login' => $_POST['login'], 'passwd' => $_POST['passwd'], 'host' => $_POST['host'], 'create' => 'OK');
 		$bd = new Mysql($sv);
 		$_SESSION['co'] = serialize($sv);
 	}
@@ -22,6 +22,7 @@ function install()
 		<div id="install">
 			<h3>Installez VoisinWar42K!</h3>
 			<form method="post" action="index.php">
+				<input type="text" name="host" placeholder="Host (local.42.fr)"\>
 				<input type="text" name="login" placeholder="login BDD"\>
 				<input type="password" name="passwd" placeholder="Password"\>
 				<input type="submit" value="Installez la Bdd." name="install">
@@ -109,7 +110,7 @@ function form_log()
 			<input type="password" name="passwd" placeholder="Password" \>
 			<input type="submit" value="Log_in" name="log_in" \>
 	</form>
-	<form method="post" action="index">
+	<form method="post" action="index.php">
 		<input type="submit" name="destroy" value="Creer un Nouveau Compte" \>
 	</form>
 	<?php
