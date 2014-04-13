@@ -18,9 +18,12 @@ class Segv extends Ship
 	public				$PV = 6;
 	public				$name = "SegmentationFault";
 	public				$price = 1500;
-	public				$faction="Orcs";
-	
-	public function		__construct(){}
+	public				$faction = "Orcs";
+
+	public function		__construct()
+	{
+
+	}
 }
 
 ?>

@@ -54,12 +54,14 @@ function		checkShipCollisions(ship)
 {
 	if (checkIcebergCollision(ship))
 		return true;
-	for (var i in game.player1.ships)
-		if (checkShipsCollision(ship, game.player1.ships[i]))
-			return true;
-	for (var i in game.player2.ships)
-		if (checkShipsCollision(ship, game.player2.ships[i]))
-			return true;
+	
+	for (var p in game.players)
+		for (var i in game.players[p].ships)
+			if (checkShipsCollision(ship, game.players[p].ships[i]))
+				return true;
+	// for (var i in game.player2.ships)
+	// 	if (checkShipsCollision(ship, game.player2.ships[i]))
+	// 		return true;
 	return false;
 }
 

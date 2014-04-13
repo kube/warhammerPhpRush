@@ -6,7 +6,7 @@ function	initializeGame()
 
 function	getShipById(id)
 {
-	return game["player"+game.currentPlayer].ships[id];
+	return game.players[game.currentPlayer - 1].ships[id];
 }
 
 function	getSelectedShip()
@@ -90,9 +90,10 @@ function	refreshMap()
 						.addClass("obstacle");
 			}
 		}
-		for (var i in game.player1.ships)
-			displayShip(game.player1.ships[i], i, 1);
-		for (var i in game.player2.ships)
-			displayShip(game.player2.ships[i], i, 2);
+		for (var p in game.players)
+			for (var i in game.players[p].ships)
+				displayShip(game.players[p].ships[i], i, parseInt(p) + 1);
+		// for (var i in game.player2.ships)
+		// 	displayShip(game.player2.ships[i], i, 2);
 	}
 }

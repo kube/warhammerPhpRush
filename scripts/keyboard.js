@@ -27,19 +27,19 @@ function addKeyListener()
 				break;
 
 			case 38:
-				moveShipUp(game['player'+game.currentPlayer].ships[game.selectedShip], 1);
+				moveShipUp(game.players[game.currentPlayer - 1].ships[game.selectedShip], 1);
 				refreshMap();
 				e.preventDefault();
 				break;
 
 			case 37:
-				rotateShipLeft(game['player'+game.currentPlayer].ships[game.selectedShip]);
+				rotateShipLeft(game.players[game.currentPlayer - 1].ships[game.selectedShip]);
 				refreshMap();
 				e.preventDefault();
 				break;
 
 			case 39:
-				rotateShipRight(game['player'+game.currentPlayer].ships[game.selectedShip]);
+				rotateShipRight(game.players[game.currentPlayer - 1].ships[game.selectedShip]);
 				refreshMap();
 				e.preventDefault();
 				break;
