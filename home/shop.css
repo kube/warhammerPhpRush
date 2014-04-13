@@ -1,0 +1,102 @@
+#shop
+{
+	display: block;
+	position: absolute;
+	top: 321px;
+	left: 240px;
+	height: 650px;
+	width: 850px;
+	background: rgb(207, 207, 207);
+}
+
+#shop #infos
+{
+	height: 50px;
+	width: 450px;
+	box-shadow: 10px 10px 10px 10px rgb(75, 71, 75);
+	-webkit-transition: background 1s ease;
+}
+
+#shop #infos:hover
+{
+	box-shadow: 10px 10px 10px 10px rgb(7, 71, 75);
+}
+
+#shop #infos p
+{
+	display: block;
+	float: left;
+	/* background: white; */
+	margin-left: 30px;
+	font-family: sans-serif;
+}
+
+#to_buy
+{
+	position: absolute;
+	height: 420px;
+	width: 100%;
+}
+
+#one_ship
+{
+	transition:All 1s ease;
+	display: block;
+	float: left;
+	height: 247px;
+	width: 217px;
+	margin: 15px;
+	padding: 5px;
+	background: #2D889E;
+}
+
+#one_ship:hover
+{
+	background: #9D0E4C;
+}
+
+#one_ship .img
+{
+	display: block;
+	width: 130px;
+	height: 130px;
+	margin: auto;
+}
+
+
+#one_ship .name
+{
+	font-family: serif;
+	height: 35px;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+#one_ship .not
+{
+	/* background: rgba(236, 133, 133, 0.92); */
+height: 188px;
+box-shadow: 9px -7px 50px 11px rgba(236, 133, 133, 0.92);
+}
+
+#buy input
+{
+	transition:All 1s ease;
+	background: rgb(87, 85, 85);
+	color: white;
+	border: none;
+	text-transform: uppercase;
+	width: 50px;
+	display: block;
+	height: 50px;
+	/* float: left;*/
+}
+
+#buy input:hover
+{
+	cursor: pointer;
+	background: black;
+}
+
+#buy .add{	float: left;}
+#buy .del{	float: right;}

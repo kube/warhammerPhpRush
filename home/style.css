@@ -3,12 +3,12 @@
  color:black; 
  text-align: center;
  text-transform:uppercase;
-
 }
 
 body
 {
-	background: black;
+	background: white;
+	font-family:  'Raleway', sans-serif;
 }
 
 #header
@@ -21,7 +21,6 @@ body
 	text-align: center;
 	padding: 30px;
 	line-height: 50px;
-	box-shadow: 36px 18px 10px 10px rgb(100, 100, 100);
 }
 
 #user_block
@@ -70,14 +69,55 @@ input.submit:hover{
 	cursor: pointer;
 }
 
+#user_block input.final
+{
+	transition: All 1s ease;
+	margin-top: 200px;
+	height: 60px;
+	position: absolute;
+	top: 700px;
+	left: 850px;
+}
+
+#user_block input.final:hover
+{
+	background:  #9D0E4C;
+}
+
+
+#all_users{
+	position: relative;
+	display: block;
+	left: 250px;
+	top: -100px;
+	width: 700px;
+	background: rgb(207, 207, 207);
+	height: 500px;
+}
+
 #install{
-	height: 250px;
-	width: 450px;
-	margin: 60px;
-	border: 2px solid black;
-	border-radius: 50%;
+	position: absolute;
+	height: 100%;
+	top: 0;
+	left: 0;
+	padding: 0;
+	width: 100%;
+	/* margin: 60px; */
+	/* border: 2px solid black; */
+	/* border-radius: 50%; */
 	text-align: center;
 	line-height: 50px;
+	background: rgba(255, 253, 253, 0.79);
+}
+
+#aff
+{
+	height: 450px;
+	width: 450px;
+	/* border: 1px solid black; */
+	background: rgb(141, 141, 141);
+	margin: auto;
+	margin-top: 300px;
 }
 
 #messages
@@ -101,10 +141,11 @@ input.submit:hover{
 #chat{
 	background: rgb(207, 207, 207);
 	width: 550px;
-	height: 250px;
+	height: 50px;
 	position: absolute;
 	bottom: 80px;
 	border-radius: 5px;
+	display: none;
 }
 
 .mess{
@@ -120,4 +161,26 @@ input.submit:hover{
 input#message
 {
 	width: 450px;
+}
+
+#faction{
+	position: absolute;
+	top: 550px;
+	left: 400px;
+	width: 500px;
+	height: 400px;
+}
+#faction .big
+{
+	transition: All 1s ease;
+	background: rgb(87, 85, 85);
+	color: white;
+	border: none;
+	text-transform: uppercase;	
+}
+
+#faction .big:hover
+{
+	background:  #9D0E4C;
+	cursor: pointer;
 }

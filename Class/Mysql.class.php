@@ -28,6 +28,9 @@ class Mysql
 		$table_users = "USE ".$this->_dbName.";".file_get_contents('table_users.sql');
 		$query = $this->_co->prepare($table_users);
 		$query->execute();
+		$table_game = "USE ".$this->_dbName.";".file_get_contents('table_game.sql');
+		$query = $this->_co->prepare($table_game);
+		$query->execute();
 	}
 
 	public function add_user(array $usr)
@@ -68,6 +71,48 @@ class Mysql
 			return ($ret[0]);
 	}
 
+	public function get_users()
+	{
+		$q = "SELECT `login` FROM `42k_users` WHERE 1";
+		$res = $this->_co->query($q);
+		while ($l = $res->fetch())
+			$ret[] = $l;
+		return ($ret);
+	}
+
+	public function record_player($shop, $faction, $usr)
+	{
+		$query = "UPDATE `42k_users` SET `shop` = '$shop', `faction` = '$faction' WHERE `login` = '$usr'";
+		$q = $this->_co->prepare($query);
+		$q->execute();
+	}
+
+	public function clean_players($usr, $versus)
+	{
+		$query = "UPDATE `42k_users` SET `shop` = '', `faction` = '' WHERE `login` = '$usr';";
+		foreach ($versus as $v) {
+			$query .= "UPDATE `42k_users` SET `shop` = '', `faction` = '' WHERE `login` = '$v';";
+		}
+		$q = $this->_co->prepare($query);
+		$q->execute();
+	}
+
+	public function get_games()
+	{
+		$q = "SELECT * FROM `42k_game` WHERE 1";
+		$res = $this->_co->query($q);
+		print_r($res);
+		while ($l = $res->fetch())
+			$ret[] = $l;
+		return ($ret);	
+	}
+
+	public function new_game($nb, $name)
+	{
+		$query = "INSERT INTO `42k_game`(`nb_players`) VALUES ('$nb', '$name')";
+		$q = $this->_co->prepare($query);
+		$q->execute();
+	}
 }
 
 ?>

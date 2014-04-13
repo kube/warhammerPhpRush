@@ -3,7 +3,6 @@ session_start();
 error_reporting(E_ALL);
 ini_set("display_errors", "On");
 
-require_once("mysql.php");
 require_once("home.php");
 require_once("chat.php");
 spl_autoload_register(function ($class) {
@@ -19,6 +18,8 @@ spl_autoload_register(function ($class) {
 	<title>VoisinWar42K</title>
 	<meta http-equiv='Content-Type' content='text/html' charset='utf-8'\>
 	<link rel='stylesheet' type='text/css' href='style.css'>
+	<link rel='stylesheet' type='text/css' href='shop.css'>
+	<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
 	<script type="text/javascript">
 
 	
@@ -67,6 +68,9 @@ spl_autoload_register(function ($class) {
 		unset($_SESSION['user']);
 		form_log();
 	}
+	else
+		form_log();
+
 ?>
 </div>
 </body>
