@@ -74,7 +74,7 @@ function	refreshMap()
 			.removeClass()
 			.addClass("p"+game.currentPlayer);
 
-		$(".boardSquare").removeClass("ship player1 player2 selected").unbind("click");
+		$(".boardSquare").removeClass("ship player1 player2 player3 player4 selected").unbind("click");
 		for (var i in game.board.grid)
 		{
 			for (var j in game.board.grid[i])

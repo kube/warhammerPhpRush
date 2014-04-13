@@ -2,15 +2,18 @@
 
 require_once("home.php");
 require_once("chat.php");
+
+require "config.php";
+
 spl_autoload_register(function ($class) {
-   require_once '../Class/'.$class . '.class.php';
+	require_once '../Class/'.$class . '.class.php';
 });
 
 session_start();
 if (isset($_SESSION['gameId']))
 	header('Location: /');
-if (!isset($_SESSION['co']))
-		install();
+if (!isset($connConf))
+	install();
 ?>
 <!DOCTYPE html>
 <html>
@@ -24,11 +27,11 @@ if (!isset($_SESSION['co']))
 	<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
 	<script type="text/javascript">
 
-	
-	$(document).ready(function() {
-	setInterval(function() {
-		$('#messages').load('get_chat.php');
-	}, 300); 
+	$(document).ready(function() 
+	{
+		setInterval(function(){
+			$('#messages').load('get_chat.php');
+		}, 300); 
 	});
 	function scroll()
 	{

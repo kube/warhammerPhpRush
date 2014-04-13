@@ -11,10 +11,36 @@ function install()
 {
 	if (isset($_POST['install']))
 	{
+
+		/*
+		**	Check Good Data
+		*/
+		if (($link = mysqli_connect($_POST['host'], $_POST['login'], $_POST['passwd'], "42K")))
+		{
+			/*
+			**	Config File
+			*/
+			$fileContent = '<?php
+
+	$connConf[\'host\']	= "'.$_POST[1].'";
+	$connConf[\'login\']	= "'.$_POST[2].'";
+	$connConf[\'passwd\']	= "'.$_POST[3].'";
+	$connConf[\'db\']	= "42K";
+
+?>';
+			file_put_contents("config.php", $fileContent);
+
+			/*
+			**	Create Database (Launch Script)
+			*/
+			$query = file_get_contents("sql/creation.sql");
+			mysqli_multi_query($link, $query);
+			mysqli_close($link);
+			header('Location: index.php');
+		}
+
 		$sv = array('login' => $_POST['login'], 'passwd' => $_POST['passwd'], 'host' => $_POST['host'], 'create' => 'OK');
 		$bd = new Mysql($sv);
-		unset($sv['create']);
-		$_SESSION['co'] = serialize($sv);
 	}
 	else
 	{
@@ -343,7 +369,8 @@ function print_list_games_user($usr)
 	$bd = log_bdd();
 	$games = $bd->get_games($usr);
 	echo "<div id='my_games'>Your GAMES : ";
-	foreach ($games as $k => $v) {
+	foreach ($games as $k => $v)
+	{
 		if (in_array($usr, $v))
 			print_one_game_user($usr, $v);
 	}
