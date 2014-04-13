@@ -352,13 +352,11 @@ function print_list_games_user($usr)
 
 function run_game($game_name, $usr)
 {
-
-	/*
-	*	AJOUTER Game_id dans la table users et dans $_SESSION['gameId']
-	*/
 	$bd = log_bdd();
 	$file = $bd->run_game($game_name, $usr);
 	$_SESSION['gameId'] = $file['ID'];
+	$_SESSION['game_file'] = $file;
+	?><script type="text/javascript">location.reload();</script><?php
 	echo "<pre>";
 	print_r($_SESSION['gameId']);
 	print_r($file);

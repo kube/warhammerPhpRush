@@ -7,6 +7,8 @@ spl_autoload_register(function ($class) {
 });
 
 session_start();
+if (isset($_SESSION['gameId']))
+	header('Location: /');
 if (!isset($_SESSION['co']))
 		install();
 ?>
