@@ -89,7 +89,7 @@ class Mysql
 		$q = $this->_co->prepare($query);
 		$q->execute();
 		$result = $q->fetchAll();
-		if(in_array($usr, $result[0]))
+		if(!isset($result[0]) || in_array($usr, $result[0]))
 		{
 			return false;
 		}
@@ -106,7 +106,6 @@ class Mysql
 			$this->insert_player_in_game($usr, 'player4', $game);
 		}
 	}
-
 
 	public function insert_player_in_game($usr, $champ, $game)
 	{
@@ -137,9 +136,47 @@ class Mysql
 
 	public function new_game($nb, $name)
 	{
+		$query = "SELECT * FROM `42k_game` WHERE `name` = '$name'";
+		$q = $this->_co->prepare($query);
+		$q->execute();
+		$result = $q->fetchAll();
+		if (!empty($result))
+			return (false);
 		$query = "INSERT INTO `42k_game`(`nb_players`, `name`) VALUES ('$nb', '$name')";
 		$q = $this->_co->prepare($query);
 		$q->execute();
+		return (true);
+	}
+
+	public function run_game($g_name, $usr)
+	{
+		$query = "UPDATE `42k_game` SET `playing` = 1 WHERE `name` = '$g_name';";
+		$q = $this->_co->prepare($query);
+		$q->execute();
+		$query = "SELECT * FROM `42k_game` WHERE `name` = '$g_name'";
+		$q = $this->_co->prepare($query);
+		$q->execute();
+		$final = array();
+		while ($result = $q->fetch())
+			$final[] = $result;
+		$game = array(
+			'nb_players' => $final[0]['nb_players'],
+			'ID' => $final[0]['id'],
+			'player1'  => $this->get_login($final[0]['player1']),
+			'player2'  => $this->get_login($final[0]['player2']),
+			'player3'  => $this->get_login($final[0]['player3']),
+			'player4'  => $this->get_login($final[0]['player4']), 
+			'name' => $final[0]['name'],
+			);
+		$query = "UPDATE `42k_users` SET `current_game` = '".$game['ID']."' WHERE `login` = '$usr';";
+		$q = $this->_co->prepare($query);
+		$q->execute();
+		return ($game);
+	}
+
+	public function doc()
+	{
+		return (file_get_contents('Mysql.doc.txt'));
 	}
 }
 

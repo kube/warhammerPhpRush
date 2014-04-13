@@ -1,8 +1,8 @@
 <?php 
+spl_autoload_register(function ($class) {
+   require_once '../Class/'.$class . '.class.php';
+});
 
-/**
-* 
-*/
 class Shop
 {
 	private $_flouz = 15000;
@@ -14,35 +14,26 @@ class Shop
 	const MAX_SHIP = 6;
 	public function		__construct($faction)
 	{
-		echo $faction;
 		if ($faction == "Orcs")
 			$this->_ships = array(
-		'cruiser' => 1000,
-		'segv' => 2000,
-		'father_lord' => 3000,
-		'destructor' => 3500,
-		'death_killer' => 5000);
+		'Cruiser' => new Cruiser,
+		'Segv' => new Segv,
+		'Kranhcrash' => new Kranhcrash,
+		'Raklefon' => new Raklefon);
 		else if ($faction == "Trolls")
 			$this->_ships = array(
-		'WakaWaka' => 1000,
-		'KiwiKiwi' => 2000,
-		'BimBamBOOM' => 3000,
-		'CoupCoup' => 3500,
-		'TavuTMor' => 5000);
+		'Wakawaka' => new Wakawaka,
+		'Kiwikiwi' => new Kiwikiwi,
+		'Bimbamboom' => new Bimbamboom,
+		'Tavutmor' => new Tavutmor);
 		elseif ($faction == "Daleks")
 			$this->_ships = array(
-		'spoutnik' => 1000,
-		'orbitator' => 2000,
-		'exterminate' => 3000,
-		'explain' => 3500,
-		'RealityBomb' => 5000);
+		'Orbitator' => new Orbitator,
+		'Exterminate' =>  new Exterminate,
+		'Explain' => new Explain,
+		'Realitybomb' => new Realitybomb);
 		else
-			$this->_ships = array(
-		'spoutnik' => 1000,
-		'orbitator' => 2000,
-		'exterminate' => 3000,
-		'explain' => 3500,
-		'RealityBomb' => 5000);
+			return false;
 	}
 
 	public function hydrate($kwargs)
@@ -65,7 +56,9 @@ class Shop
 				<p>Ships in your Flotte : <?php echo$this->_nbShip; ?></p>
 			</div>
 			<div id='to_buy'>
-				<?php echo $this->print_ships(); ?>
+				<?php 
+				echo $this->print_ships(); 
+				?>
 			</div>
 		</div>
 		<?php
@@ -73,53 +66,53 @@ class Shop
 
 	private function print_ships()
 	{
-		foreach ($this->_ships as $key => $value) {
+		foreach ($this->_ships as $key => $v)
+		{
+			$v = new $key;
 			?>
 			<div id="one_ship">
 				<div class="name">
-					<?php echo $key;?><br />
-					Cost : <?php echo $value;?>
+					<?php echo $v->name; 
+					echo "<br />Cost :"; 
+					echo $v->price; ?>
 				</div>
 				<?php
-				if ($this->_flouz >= $value)
+				if ($this->_flouz >= $v->price)
 					echo "<div class='ok'>";
 				else
 					echo "<div class='not'>";
-				?>
-					<div class='img'> <?php $this->print_stat($key)?></div>
-					<div id='buy'>
-						<form action="index.php" method="post" class="add">
-							<input type="submit" value="add" name="add">
-							<input type="hidden" value="<?php echo $key;?>" name="ship">
-						</form>
-						<form action="index.php" method="post" class="del">
-							<input type="submit" value="del" name="del">
-							<input type="hidden" value="<?php echo $key;?>" name="ship">
-						</form>
-						
-					</div>
+					$this->print_stat($v);
+					$this->form_shop($v); ?>
 				</div>
 			</div>
 			<?php
 		}
 	}
-
+	
 
 	public function buy($name)
 	{
-		if (array_key_exists($name, $this->_ships)  && $this->_flouz >= $this->_ships[$name] && $this->_nbShip < self::MAX_SHIP) {
-			$this->_flouz -= $this->_ships[$name];
-			$this->_flotte[] = $name;
+		if (class_exists($name))
+			$ship = new $name;
+		if ($this->_flouz >= $ship->price && $this->_nbShip < self::MAX_SHIP) {
+			$this->_flouz -= $ship->price;
+			$this->_flotte[] = $ship;
 			$this->_nbShip++;
 		}
 	}
 
 	public function delete($name)
 	{
-		if (array_key_exists($name, $this->_ships)  && in_array($name, $this->_flotte)) {
-			$this->_flouz += $this->_ships[$name];
-			unset($this->_flotte[array_search($name, $this->_flotte)]);
-			$this->_nbShip--;
+		if (class_exists($name))
+			$ship = new $name;
+		foreach ($this->_flotte as $k => $v) {
+			if ($v == $ship)
+			{
+				unset($this->_flotte[$k]);
+				$this->_flouz += $this->_ships[$name]->price;
+				$this->_nbShip--;
+				return;
+			}
 		}
 	}
 
@@ -140,27 +133,36 @@ class Shop
 		return $ret;
 	}
 
-	private function print_stat($ship)
+	private function print_stat($stat)
 	{
-		switch ($ship) {
-			case 'cruiser':
-				echo "taille : 4 * 1<br/>PV: 50<br/>PP: 3<br/>Speed: 17<br/>Manoeuvre: 2<br/>Weapons: lance-pierre, shotgun";
-				break;
-			case 'segv':
-				echo "taille : 5 * 2<br/>PV: 150<br/>PP: 6<br/>Speed: 20<br/>Manoeuvre: 8<br/>Weapons: bus_error()";
-				break;
-			case 'father_lord':
-				echo "taille : 4 * 1<br/>PV: 50<br/>PP: 3<br/>Speed: 17<br/>Manoeuvre: 2<br/>Weapons: lance-pierre, shotgun";
-				break;
-			case 'destructor':
-				echo "taille : 4 * 1<br/>PV: 50<br/>PP: 3<br/>Speed: 17<br/>Manoeuvre: 2<br/>Weapons: lance-pierre, shotgun";
-				break;
-			case 'death_killer':
-				echo "taille : 4 * 1<br/>PV: 50<br/>PP: 3<br/>Speed: 17<br/>Manoeuvre: 2<br/>Weapons: lance-pierre, shotgun";
-				break;
-			default:
-				echo "taille : 4 * 1<br/>PV: 50<br/>PP: 3<br/>Speed: 17<br/>Manoeuvre: 2<br/>Weapons: lance-pierre, shotgun";
-		}
+		echo "<div class='img'> taille : ".$stat->width." / ".$stat->height."<br/>PV: ".$stat->PV."<br/>PP: ".$stat->power."<br/>Speed: ".$stat->move."<br/>Manoeuvre: ".$stat->endurance."<br/></div>";
+	}
+
+	public function print_flotte()
+	{
+		foreach ($this->_flotte as $k => $v)
+			echo "<h4> ".$v->name ."</h4>";
+	}
+
+	public function doc()
+	{
+		return (file_get_contents('Shop.doc.txt'));
+	}
+
+	private function form_shop($v)
+	{
+		?>
+		<div id='buy'>
+			<form action="index.php" method="post" class="add">
+				<input type="submit" value="add" name="add">
+				<input type="hidden" value="<?php echo get_class($v);?>" name="ship">
+			</form>
+			<form action="index.php" method="post" class="del">
+				<input type="submit" value="del" name="del">
+				<input type="hidden" value="<?php echo get_class($v);?>" name="ship">
+			</form>
+		</div>
+		<?php					
 	}
 }
 

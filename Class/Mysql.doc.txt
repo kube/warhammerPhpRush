@@ -1,0 +1,23 @@
+<Mysql----------------------------------------------------------------------------
+Mysql Class is done to manage connexion with DataBase
+using PDO Class.  
+
+new Mysql have two ways of constructs but same requirement:
+'login' => login for database server, 
+'passwd' =>password of the databse server,
+'host' => adress of database server.
+then the key 'co' is to establish a connexion,
+and the key 'create' is for the installation of the website.
+
+functions:
+	add_user : add a user on the DB, need 'login', 'mail', 'passwd'.
+	check_login : check if the argument is already a login in the DB
+	get_login : return a array for the 'login'
+	get_users : return all users on the DB
+	record_player : update the field of one user with his shop, faction and game_board.
+	insert_player_in_game : make a link between a user and a game.
+	clean_players : unset shop, faction for user and opponents.
+	get_games : return all games in the DB.
+	new_game : create a new game in the DB.
+	run_game: return all informations about one game (the game_board and users into)
+----------------------------------------------------------------------------Mysql->
