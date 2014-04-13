@@ -20,7 +20,7 @@ require_once "Class/Game.class.php";
 <?php
 
 if (!array_key_exists('game', $_SESSION))
-	$_SESSION['game'] = serialize(new Game(4));
+	$_SESSION['game'] = serialize(new Game(3));
 
 $game = unserialize($_SESSION['game']);
 $game->displayBoard();
