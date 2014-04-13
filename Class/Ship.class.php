@@ -47,11 +47,11 @@ class Ship
 		return($limits);
 	}
 
-	public function		checkOverflow($action)
+	public function		checkOverflow()
 	{
 		global $game;
 
-		$limits = $this->getLimits();
+		$limits = $this->getLimits(0);
 		if ($limits['x0'] < 0 || $limits['x1'] > $game->board->width)
 			return True;
 		if ($limits['y0'] < 0 || $limits['y1'] > $game->board->height)
@@ -59,17 +59,52 @@ class Ship
 		return False;
 	}
 
+	public function		destroy()
+	{
+		foreach ($game->players as $player)
+			foreach ($player->ships as $ship)
+				if ($ship == $this)
+					unset($ship);
+	}
+
+	public function		fire()
+	{
+		$fire = $this->getLimits(0);
+		if ($this->direction == 0)
+			$fire['y'] += $this->height / 2;
+		else if ($this->direction == 1)
+			$fire['x'] += $this->height / 2;
+		else if ($this->direction == 2)
+			$fire['y'] -= $this->height / 2;
+		else if ($this->direction == 3)
+			$fire['x'] -= $this->height / 2;
+
+		foreach ($game->players as $player)
+			foreach ($player->ships as $ship)
+				if ($ship != $this)
+				{
+					$a = getShipLimits($ship);
+					if ($a->x0 < $fire->x1 && $a->x1 > $fire->x0
+						&& $a->y0 < $fire->y1 && $a->y1 > $fire->y0)
+						unset($ship);
+						// $ship->destroy();
+				}
+	}
+
 	public function		moveUp($nb)
 	{
 		if ($this->direction == 0)
-			$this->position['x'] = $this->position['x'] + $nb;
+			$this->position['y'] += $nb;
 		else if ($this->direction == 1)
-			$this->position['y'] = $this->position['y'] - $nb;
+			$this->position['x'] += $nb;
 		else if ($this->direction == 2)
-			$this->position['x'] = $this->position['x'] - $nb;
+			$this->position['y'] -= $nb;
 		else if ($this->direction == 3)
-			$this->position['y'] = $this->position['y'] + $nb;
-		$this->move --;
+			$this->position['x'] -= $nb;
+		if ($this->checkOverflow($this))
+			$this->position = $position;
+		else
+			$this->move--;
 	}
 
 	public function		rotateLeft()

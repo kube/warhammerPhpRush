@@ -46,12 +46,30 @@ function		shipFire(ship)
 		{
 			$("#sq_x"+parseInt(x)+"y"+parseInt(y)).removeClass("fire");
 		}, 650);
+	$.ajax({
+	type: 'GET',
+	url: 'ajax/action.php?action=Fire',
+	success: function(output, status, xhr)
+	{
+		game = JSON.parse(output);
+		refreshMap();
+	}
+	});
 }
 
 function		rotateShipLeft(ship)
 {
 	ship.direction = ship.direction + 1;
 	ship.direction %= 4;
+	$.ajax({
+	type: 'GET',
+	url: 'ajax/action.php?action=RotateLeft',
+	success: function(output, status, xhr)
+	{
+		game = JSON.parse(output);
+		refreshMap();
+	}
+	});
 }
 
 function		rotateShipRight(ship)
@@ -59,6 +77,15 @@ function		rotateShipRight(ship)
 	ship.direction += 4;
 	ship.direction--;
 	ship.direction %= 4;
+	$.ajax({
+	type: 'GET',
+	url: 'ajax/action.php?action=RotateRight',
+	success: function(output, status, xhr)
+	{
+		game = JSON.parse(output);
+		refreshMap();
+	}
+	});
 }
 
 function		checkShipCollisions(ship)
@@ -123,5 +150,18 @@ function		moveShipUp(ship, nb)
 	if (checkOverflow(ship))
 		$.extend(ship.position, position);
 	else
+	{
 		ship.move--;
+		$.ajax({
+		type: 'GET',
+		url: 'ajax/action.php?action=MoveUp',
+		success: function(output, status, xhr)
+		{
+			console.log(output);
+			game = JSON.parse(output);
+			refreshMap();
+		}
+		});
+	}
+
 }

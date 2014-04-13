@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-unset($_SESSION['game']);
+unlink("1.game");
 header("Location: index.php");
 
 ?>

@@ -46,8 +46,15 @@ function addKeyListener()
 
 			case 13:
 				game.currentPlayer = game.currentPlayer % game.nbPlayers + 1;
-				game.selectedShip = null;
-				refreshMap();
+				$.ajax({
+					type: 'GET',
+					url: 'ajax/action.php?action=FinishRound',
+					success: function(output, status, xhr)
+					{
+						game = JSON.parse(output);
+						refreshMap();
+					}
+				});
 				break;
 
 			case 70:

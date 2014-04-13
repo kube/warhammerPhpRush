@@ -16,12 +16,30 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH'])
 			$game->selectShip($_GET['ship']);
 			break;
 
-		case "MoveUp":
-
+		case "FinishRound":
+			$game->finishRound();
 			break;
+
+		case "MoveUp":
+			$game->getSelectedShip()->moveUp(1);
+			break;
+		
+		case "RotateLeft":
+			$game->getSelectedShip()->rotateLeft();
+			break;
+
+		case "RotateRight":
+			$game->getSelectedShip()->rotateRight();
+			break;
+
+		case "Fire":
+		{
+			echo "Cire";
+			$game->getSelectedShip()->fire();
+		}
 	}
 
-	echo $game;
+	// echo $game;
 	file_put_contents("../1.game", serialize($game));
 }
 
@@ -29,10 +47,8 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH'])
 
 
 
-//	RotateLeft
-//	RotateRight
+
 //	Fire
-//	SelectShip
 //	UnselectShip
 //	FinishRound
 

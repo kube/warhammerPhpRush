@@ -65,9 +65,20 @@ class Game
 		$this->selectShip(0);
 	}
 
+	public function		finishRound()
+	{
+		$this->_currentPlayer = $this->_currentPlayer % $this->_nbPlayers + 1;
+		$this->selectedShip = -1;
+	}
+
 	public function		selectShip($shipId)
 	{
 		$this->_selectedShip = intval($shipId);
+	}
+
+	public function		getSelectedShip()
+	{
+		return $this->players[intVal($this->_currentPlayer) - 1]->ships[intVal($this->_selectedShip)];
 	}
 
 	private function	displaySquare($square, $i, $j)
