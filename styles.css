@@ -14,7 +14,33 @@ body
 {
 	width: 80%;
 	margin: 0 auto;
+	transition: all 1.3s ease;
 	-webkit-transform: rotateX(13deg);
+}
+
+#board.reverse
+{
+	-webkit-transform: rotateX(13deg) rotateZ(180deg);
+}
+
+#boardWrapper h1
+{
+	position: absolute;
+	margin-top: 25px;
+	font: 25px "Montserrat", Helvetica, Arial, sans-serif;
+	font-weight: 200;
+	width: 100%;
+	text-align: center;
+}
+
+#boardWrapper h1.p1
+{
+	color: #2d889e;
+}
+
+#boardWrapper h1.p2
+{
+	color: #9d0e4c;
 }
 
 #board .boardLine
@@ -32,12 +58,50 @@ body
 	height: 10px;
 	background: #111;
 	border: 1px dotted #2d3649;
-	transition: all 0.5s ease;
+	transition: all 0.4s ease;
+}
+
+#board .boardLine .boardSquare.fire
+{
+	background: #eec520;
+	border: 1px dotted #efa535;
+	-webkit-animation-name: fireFloat;
+	-webkit-animation-duration: 0.7s;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-delay: 0s;
+	-webkit-animation-iteration-count: 1;
+	-webkit-animation-direction: alternate;
+	-webkit-animation-play-state: running;
+}
+
+@-webkit-keyframes fireFloat
+{
+	0%   {}
+	100% {background: transparent;}
+}
+
+#board .boardLine .boardSquare.obstacle
+{
+	background: #2e3339;
+	border: 1px dotted #1e2a33;
+	-webkit-animation-name: obstacleFloat;
+	-webkit-animation-duration: 2s;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-delay: 0s;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-direction: alternate;
+	-webkit-animation-play-state: running;
+}
+
+@-webkit-keyframes obstacleFloat
+{
+	0%   {}
+	100% {-webkit-transform: translateY(-5px);}
 }
 
 #board .boardLine .boardSquare.selected
 {
-	-webkit-animation-duration: 1s;
+	-webkit-animation-duration: 0.5s;
 	-webkit-animation-timing-function: linear;
 	-webkit-animation-delay: 0s;
 	-webkit-animation-iteration-count: infinite;
@@ -57,19 +121,26 @@ body
 
 @-webkit-keyframes p1selection
 {
-	0%   {background: #2d889e; border-color: #1d788e;}
-	100% {background: #5cb2ca; border-color: #76ced6;}
+	0%   {background: #2d889e;
+		border-color: #1d788e;}
+	100% {background: #5cb2ca;
+		border-color: #76ced6;
+		-webkit-transform: translateY(-7px);}
 }
 
 @-webkit-keyframes p2selection
 {
-	0%   {background: #9d0e4c; border-color: #8d013c;}
-	100% {background: #b64687; border-color: #cb7897;}
+	0%   {background: #9d0e4c;
+		border-color: #8d013c;}
+	100% {background: #b64687;
+		border-color: #cb7897;
+		-webkit-transform: translateY(-7px);}
 }
 
 #board .boardLine .boardSquare.ship
 {
 	border: 1px solid #2d3649;
+	-webkit-transform: translateY(-2px);
 }
 
 #board .boardLine .boardSquare.ship.player1

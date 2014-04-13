@@ -1,68 +1,59 @@
 <?php
 
-$tab = array();
+function	generateMap($height, $width){
 
-
-
-for ($i = 0; $i < 100; $i++)
-{
-	for ($j = 0; $j < 150; $j++)
+	$tab = array();
+	for ($i = 0; $i < $height; $i++)
 	{
-		if (($j > 50 && $j < 100) || ($i > 25 && $i < 75))
+		for ($j = 0; $j < $width; $j++)
 		{
-			$tmp = rand(0, 900);
-			if ($tmp == 1)
-				$tab[$i][$j] = 2;
+			if (($j > ($width / 3) && $j < ($width / 3 * 2) || ($i > ($height / 3) && $i < ($height / 3 * 2))))
+			{
+				$tmp = rand(0, 800);
+				if ($tmp == 1)
+					$tab[$i][$j] = 2;
+				else
+					$tab[$i][$j] = 0;
+			}
 			else
 				$tab[$i][$j] = 0;
 		}
-		else
-			$tab[$i][$j] = 0;
 	}
-}
-
-for ($i = 0; $i < 100; $i++)
-{
-	for ($j = 0; $j < 150; $j++)
+	for ($i = 0; $i < $height; $i++)
 	{
-		if ($tab[$i][$j] == 2)
+		for ($j = 0; $j < $width; $j++)
 		{
-			$tab[$i][$j] = 1;
-			$in = $i;
-			$jn = $j;
-			$rand = rand(50, 60);
-			for ($y = 0; $y < $rand; $y++)
+			if ($tab[$i][$j] == 2)
 			{
-				if (rand(0, 1) == 1)
+				$tab[$i][$j] = 1;
+				$in = $i;
+				$jn = $j;
+				$rand = rand(50, 60);
+				for ($y = 0; $y < $rand; $y++)
 				{
 					if (rand(0, 1) == 1)
-						$in++;
+					{
+						if (rand(0, 1) == 1)
+							$in++;
+						else
+							$jn++;
+					}
 					else
-						$jn++;
-				}
-				else
-				{
-					if (rand(0, 1) == 1)
-						$in--;
-					else
-						$jn--;
-				}
-				if (($jn > 50 && $jn < 100) || ($in > 25 && $in < 75))
-				{
-					if (($jn > 0 && $jn < 150) && ($in > 0 && $in < 100)) 
-						$tab[$in][$jn] = 1;
+					{
+						if (rand(0, 1) == 1)
+							$in--;
+						else
+							$jn--;
+					}
+					if (($jn > ($width / 3) && $jn < ($width / 3 * 2)) || ($in > ($height / 3) && $in < ($height / 3 * 2)))
+					{
+						if (($jn > 0 && $jn < $width) && ($in > 0 && $in < $height)) 
+							$tab[$in][$jn] = 1;
+					}
 				}
 			}
 		}
-    }
-}
-
-foreach ($tab as $elem)
-{
-	foreach ($elem as $value)
-	{
-		echo $value;
 	}
-	echo "\n";
+	return ($tab);
 }
 ?>
