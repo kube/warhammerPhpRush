@@ -25,8 +25,11 @@ body
 
 #boardWrapper h1
 {
+	position: absolute;
+	margin-top: 25px;
 	font: 25px "Montserrat", Helvetica, Arial, sans-serif;
 	font-weight: 200;
+	width: 100%;
 	text-align: center;
 }
 
@@ -39,8 +42,6 @@ body
 {
 	color: #9d0e4c;
 }
-
-
 
 #board .boardLine
 {
@@ -57,7 +58,26 @@ body
 	height: 10px;
 	background: #111;
 	border: 1px dotted #2d3649;
-	transition: all 0.5s ease;
+	transition: all 0.4s ease;
+}
+
+#board .boardLine .boardSquare.fire
+{
+	background: #eec520;
+	border: 1px dotted #efa535;
+	-webkit-animation-name: fireFloat;
+	-webkit-animation-duration: 0.7s;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-delay: 0s;
+	-webkit-animation-iteration-count: 1;
+	-webkit-animation-direction: alternate;
+	-webkit-animation-play-state: running;
+}
+
+@-webkit-keyframes fireFloat
+{
+	0%   {}
+	100% {background: transparent;}
 }
 
 #board .boardLine .boardSquare.obstacle
