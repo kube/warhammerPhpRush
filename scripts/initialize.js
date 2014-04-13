@@ -2,6 +2,17 @@
 function	initializeGame()
 {
 	addKeyListener();
+	
+	$.ajax({
+		type: 'GET',
+		url: 'ajax/refresh',
+		success: function(output, status, xhr)
+		{
+			console.log(output);
+			game = JSON.parse(output);
+			refreshMap();
+		}
+	});
 }
 
 function	getShipById(id)

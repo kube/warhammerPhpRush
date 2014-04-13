@@ -19,14 +19,14 @@ require_once "Class/Game.class.php";
 <h1 id="playerTurn">VoisinWar42K</h1>
 <?php
 
-if (!array_key_exists('game', $_SESSION))
-	$_SESSION['game'] = serialize(new Game(3));
+if (!file_exists("1.game"))
+	file_put_contents("1.game", serialize(new Game(3)));
 
-$game = unserialize($_SESSION['game']);
+$game = unserialize(file_get_contents("1.game"));
 $game->displayBoard();
 
 // Save Current Game
-$_SESSION['game'] = serialize($game);
+file_put_contents("1.game", serialize($game));
 
 ?>
 </div>

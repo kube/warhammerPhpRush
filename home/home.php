@@ -11,7 +11,6 @@ function install()
 {
 	if (isset($_POST['install']))
 	{
-
 		/*
 		**	Check Good Data
 		*/

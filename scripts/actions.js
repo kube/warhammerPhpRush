@@ -2,6 +2,17 @@
 function		selectShip(ship, shipNumber, player)
 {
 	game.selectedShip = shipNumber;
+
+	$.ajax({
+		type: 'GET',
+		url: 'ajax/action.php?action=SelectShip&ship='+shipNumber,
+		success: function(output, status, xhr)
+		{
+			console.log(output);
+			game = JSON.parse(output);
+			refreshMap();
+		}
+	});
 	refreshMap();
 }
 

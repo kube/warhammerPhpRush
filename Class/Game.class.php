@@ -7,6 +7,7 @@ class Game
 {
 	private				$_nbPlayers;
 	protected			$_currentPlayer;
+	protected			$_selectedShip;
 	public				$players;
 	public				$board;
 
@@ -61,6 +62,12 @@ class Game
 			$this->players[3]->createShip(1, 3, 25, 90, 2);
 			$this->players[3]->createShip(1, 3, 20, 90, 2);
 		}
+		$this->selectShip(0);
+	}
+
+	public function		selectShip($shipId)
+	{
+		$this->_selectedShip = intval($shipId);
 	}
 
 	private function	displaySquare($square, $i, $j)
@@ -86,10 +93,13 @@ class Game
 
 	public function		__toString()
 	{
+		// return json_encode($this);
+
 		return "{"
 			.'"nbPlayers": '.$this->_nbPlayers.",\n"
 			.'"currentPlayer": '.$this->_currentPlayer.",\n"
 			.'"board": '.$this->board.",\n"
+			.'"selectedShip": '.number_format($this->_selectedShip, 0).",\n"
 			.'"players": '.json_encode($this->players)
 			."}";
 	}
