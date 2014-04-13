@@ -2,9 +2,13 @@
 
 function log_bdd()
 {
-	$co = unserialize($_SESSION['co']);
-	$co['co'] = 'ok';
-	return (new Mysql($co));
+	require "config.php";
+	if (isset($_SESSION['gameId']))
+		header('Location: /');
+	if (!isset($connConf))
+		install();
+	else
+		return (new Mysql($connConf));
 }
 
 function install()
@@ -14,27 +18,25 @@ function install()
 		/*
 		**	Check Good Data
 		*/
-		if (($link = mysqli_connect($_POST['host'], $_POST['login'], $_POST['passwd'], "42K")))
+		if ($link = new Mysql(array('create' => 'ok', 'host' => $_POST[1], 'login'=> $_POST[2], 'passwd' => $_POST[3])))
 		{
 			/*
 			**	Config File
 			*/
 			$fileContent = '<?php
 
-	$connConf[\'host\']	= "'.$_POST[1].'";
-	$connConf[\'login\']	= "'.$_POST[2].'";
-	$connConf[\'passwd\']	= "'.$_POST[3].'";
-	$connConf[\'db\']	= "42K";
-
+$connConf[\'host\']	= "'.$_POST[1].'";
+$connConf[\'login\']	= "'.$_POST[2].'";
+$connConf[\'passwd\']	= "'.$_POST[3].'";
+$connConf[\'db\']	= "'.$_POST[4].'";
+$connConf[\'co\'] = "ok";
 ?>';
 			file_put_contents("config.php", $fileContent);
 
 			/*
 			**	Create Database (Launch Script)
 			*/
-			$query = file_get_contents("sql/creation.sql");
-			mysqli_multi_query($link, $query);
-			mysqli_close($link);
+			
 			header('Location: index.php');
 		}
 
@@ -48,9 +50,10 @@ function install()
 			<div id="aff">
 				<h3>Installez VoisinWar42K!</h3>
 				<form method="post" action="index.php">
-					<input type="text" name="host" placeholder="Host (local.42.fr)"\>
-					<input type="text" name="login" placeholder="login BDD"\>
-					<input type="password" name="passwd" placeholder="Password"\>
+					<input type="text" name="1" placeholder="Host (local.42.fr)"\>
+					<input type="text" name="2" placeholder="login BDD"\>
+					<input type="password" name="3" placeholder="Password"\>
+					<input type="hidden" name="4" value="42K"\>
 					<input type="submit" class="submit" value="Installez la Bdd." name="install">
 				</form>
 			</div>
@@ -92,7 +95,6 @@ function new_user()
 		}
 		if ($bdd->add_user(array('login' => $user, 'passwd' => $pass, 'mail' => $mail)))
 		{
-			echo "<h4>BDD QUERY DONE</h4>".PHP_EOL;
 			$_SESSION['user'] = array('login' => $user);
 			welcome_user($bdd->get_login($user));
 			return true;
@@ -381,11 +383,13 @@ function run_game($game_name, $usr)
 	$bd = log_bdd();
 	$file = $bd->run_game($game_name, $usr);
 	$_SESSION['gameId'] = $file['ID'];
-	$_SESSION['game_file'] = $file;
-	?><script type="text/javascript">location.reload();</script><?php
+	$_SESSION['game_file'] = $file;	
+	$ships = unserialize($file['player2']['shop']);
+	file_put_contents('../players.games', serialize($file));
 	echo "<pre>";
-	print_r($_SESSION['gameId']);
+	print_r(unserialize($ships));
 	print_r($file);
 	echo "</pre>";
+	?><script type="text/javascript">location.reload();</script><?php
 }
 ?>

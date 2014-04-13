@@ -3,13 +3,14 @@
 require_once("home.php");
 require_once("chat.php");
 
-require "config.php";
+
 
 spl_autoload_register(function ($class) {
 	require_once '../Class/'.$class . '.class.php';
 });
 
 session_start();
+require "config.php";
 if (isset($_SESSION['gameId']))
 	header('Location: /');
 if (!isset($connConf))

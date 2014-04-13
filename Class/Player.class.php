@@ -31,9 +31,9 @@ class Player
 		return $string;
 	}
 
-	public function		createShip($width, $height, $x, $y, $direction)
+	public function		createShip($width, $height, $x, $y, $direction, $name)
 	{
-		array_push($this->ships, new Ship($width, $height, $x, $y, $direction));
+		array_push($this->ships, new $name($width, $height, $x, $y, $direction));
 	}
 }
 

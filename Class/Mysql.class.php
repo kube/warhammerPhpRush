@@ -22,7 +22,8 @@ class Mysql
 
 	private function _Create_bd(array $kwargs)
 	{
-		$this->_co = new PDO('mysql:host='.$kwargs['host'].';', $kwargs['login'], $kwargs['passwd'], array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+		if (!$this->_co = new PDO('mysql:host='.$kwargs['host'].';', $kwargs['login'], $kwargs['passwd'], array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)))
+			return false;
 		$query = $this->_co->prepare(" DROP DATABASE IF EXISTS ".$this->_dbName."; CREATE DATABASE IF NOT EXISTS ".$this->_dbName.";");
 		$query->execute();
 		$table_users = "USE ".$this->_dbName.";".file_get_contents('table_users.sql');
