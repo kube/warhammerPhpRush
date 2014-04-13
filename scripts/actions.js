@@ -2,13 +2,11 @@
 function		selectShip(ship, shipNumber, player)
 {
 	game.selectedShip = shipNumber;
-	console.log(ship, shipNumber);
 	refreshMap();
 }
 
 function		shipFire(ship)
 {
-	// var fire = $.extend(true, {}, ship.position);
 	var x = ship.position.x;
 	var y = ship.position.y;
 

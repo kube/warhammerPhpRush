@@ -1,7 +1,7 @@
 <?php
 
-function	generateMap($height, $width){
-
+function	generateMap($height, $width)
+{
 	$tab = array();
 	for ($i = 0; $i < $height; $i++)
 	{
