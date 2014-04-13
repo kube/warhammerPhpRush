@@ -66,20 +66,14 @@ function	refreshMap()
 {
 	if (game)
 	{
-		if (game.currentPlayer == 2)
-		{	
+		if (game.currentPlayer == 2 || game.currentPlayer == 3)
 			$("#board").removeClass("reverse");
-			$("#playerTurn").text("Player 2")
-				.removeClass()
-				.addClass("p2");
-		}
 		else
-		{
 			$("#board").addClass("reverse");
-			$("#playerTurn").text("Player 1")
-				.removeClass()
-				.addClass("p1");
-		}
+		$("#playerTurn").text("Player "+game.currentPlayer)
+			.removeClass()
+			.addClass("p"+game.currentPlayer);
+
 		$(".boardSquare").removeClass("ship player1 player2 selected").unbind("click");
 		for (var i in game.board.grid)
 		{
@@ -93,7 +87,5 @@ function	refreshMap()
 		for (var p in game.players)
 			for (var i in game.players[p].ships)
 				displayShip(game.players[p].ships[i], i, parseInt(p) + 1);
-		// for (var i in game.player2.ships)
-		// 	displayShip(game.player2.ships[i], i, 2);
 	}
 }

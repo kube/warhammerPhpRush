@@ -155,6 +155,11 @@ body
 	-webkit-animation-name: p3selection;
 }
 
+#board .boardLine .boardSquare.player4.selected
+{
+	-webkit-animation-name: p4selection;
+}
+
 @-webkit-keyframes p1selection
 {
 	0%   {background: #2d889e;
@@ -175,10 +180,19 @@ body
 
 @-webkit-keyframes p3selection
 {
-	0%   {background: #9d0e4c;
-		border-color: #8d013c;}
-	100% {background: #b64687;
-		border-color: #cb7897;
+	0%   {background: #5c349d;
+		border-color: #502385;}
+	100% {background: #8a6daf;
+		border-color: #a488cb;
+		-webkit-transform: translateY(-7px);}
+}
+
+@-webkit-keyframes p4selection
+{
+	0%   {background: #459e6b;
+		border-color: #35865c;}
+	100% {background: #76b091;
+		border-color: #b6cfca;
 		-webkit-transform: translateY(-7px);}
 }
 

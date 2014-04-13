@@ -45,7 +45,7 @@ function addKeyListener()
 				break;
 
 			case 13:
-				game.currentPlayer = game.currentPlayer % 2 +1;
+				game.currentPlayer = game.currentPlayer % game.nbPlayers + 1;
 				game.selectedShip = null;
 				refreshMap();
 				break;
