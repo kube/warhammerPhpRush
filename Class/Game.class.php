@@ -36,19 +36,19 @@ class Game
 		$this->players[1]->createShip(1, 3, 125, 90, 2);
 		$this->players[1]->createShip(1, 3, 120, 90, 2);
 
-		$this->players[2]->createShip(3, 10, 45, 90, 2);
-		$this->players[2]->createShip(3, 10, 40, 90, 2);
-		$this->players[2]->createShip(2, 7, 35, 90, 2);
-		$this->players[2]->createShip(2, 7, 30, 90, 2);
-		$this->players[2]->createShip(1, 3, 25, 90, 2);
-		$this->players[2]->createShip(1, 3, 20, 90, 2);
+		$this->players[2]->createShip(3, 10, 145, 10, 0);
+		$this->players[2]->createShip(3, 10, 140, 10, 0);
+		$this->players[2]->createShip(2, 7, 135, 10, 0);
+		$this->players[2]->createShip(2, 7, 130, 10, 0);
+		$this->players[2]->createShip(1, 3, 125, 10, 0);
+		$this->players[2]->createShip(1, 3, 120, 10, 0);
 
-		$this->players[3]->createShip(3, 10, 145, 10, 2);
-		$this->players[3]->createShip(3, 10, 140, 10, 2);
-		$this->players[3]->createShip(2, 7, 135, 10, 2);
-		$this->players[3]->createShip(2, 7, 130, 10, 2);
-		$this->players[3]->createShip(1, 3, 125, 10, 2);
-		$this->players[3]->createShip(1, 3, 120, 10, 2);
+		$this->players[3]->createShip(3, 10, 45, 90, 2);
+		$this->players[3]->createShip(3, 10, 40, 90, 2);
+		$this->players[3]->createShip(2, 7, 35, 90, 2);
+		$this->players[3]->createShip(2, 7, 30, 90, 2);
+		$this->players[3]->createShip(1, 3, 25, 90, 2);
+		$this->players[3]->createShip(1, 3, 20, 90, 2);
 	}
 
 	private function	displaySquare($square, $i, $j)

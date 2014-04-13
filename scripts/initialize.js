@@ -66,10 +66,10 @@ function	refreshMap()
 {
 	if (game)
 	{
-		if (game.currentPlayer == 2 || game.currentPlayer == 3)
-			$("#board").removeClass("reverse");
-		else
+		if (game.currentPlayer % 2)
 			$("#board").addClass("reverse");
+		else
+			$("#board").removeClass("reverse");
 		$("#playerTurn").text("Player "+game.currentPlayer)
 			.removeClass()
 			.addClass("p"+game.currentPlayer);
