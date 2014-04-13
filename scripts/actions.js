@@ -50,22 +50,51 @@ function		rotateShipRight(ship)
 	ship.direction %= 4;
 }
 
+function		checkShipCollisions(ship)
+{
+	if (checkIcebergCollision(ship))
+		return true;
+	for (var i in game.player1.ships)
+		if (checkShipsCollision(ship, game.player1.ships[i]))
+			return true;
+	for (var i in game.player2.ships)
+		if (checkShipsCollision(ship, game.player2.ships[i]))
+			return true;
+	return false;
+}
+
+function		checkIcebergCollision(ship)
+{
+	var limits = getShipLimits(ship);
+
+	for (var j = limits.y0; j < limits.y1; j++)
+		for (var i = limits.x0; i < limits.x1; i++)
+			if (game.board.grid[j][i])
+				return true;
+	return false;
+}
+
+function		checkShipsCollision(shipA, shipB)
+{
+	var a = getShipLimits(shipA);
+	var b = getShipLimits(shipB);
+
+	if (shipA == shipB)
+		return false;
+	if (a.x0 < b.x1 && a.x1 > b.x0
+		&& a.y0 < b.y1 && a.y1 > b.y0)
+		return true;
+	return false;
+}
+
 function		checkOverflow(ship, action)
 {
 	var limits = getShipLimits(ship);
 
-	console.log(limits);
-
 	if (limits.x0 < 0 || limits.x1 > game.board.width)
-	{
-		console.log("a");
 		return true;
-	}
 	if (limits.y0 < 0 || limits.y1 > game.board.height)
-	{
-		console.log("b");
 		return true;
-	}
 	return false;
 }
 

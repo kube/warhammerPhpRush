@@ -1,5 +1,7 @@
 <?php
-include '../generate.php';
+
+require_once dirname(__FILE__)."/../generate.php";
+
 class Board
 {
 	public				$width;

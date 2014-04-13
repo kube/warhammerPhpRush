@@ -37,21 +37,27 @@ function	displayShip(ship, shipNumber, player)
 	{
 		for (var i = limits.x0; i < limits.x1; i++)
 		{
+			var	shipObj = $("#sq_x"+i+"y"+j);
 			if (game.selectedShip && game.selectedShip == shipNumber
 				&& game.currentPlayer == player)
 			{
-				var el		= $("#sq_x"+i+"y"+j);
-				var newone	= el.clone(true);
-				el.before(newone);
-				el.remove();
-				$("#sq_x"+i+"y"+j).addClass("selected");
+				var newone	= shipObj.clone(true);
+				shipObj.before(newone);
+				shipObj.remove();
+				shipObj = $("#sq_x"+i+"y"+j);
+				shipObj.addClass("selected");
 			}
-			$("#sq_x"+i+"y"+j)
+			shipObj
 				.addClass("ship player" + player)
 				.click(function()
 					{
-						selectShip(ship, shipNumber, player);
+						if (game.currentPlayer == player)
+							selectShip(ship, shipNumber, player);
 					});
+			if (checkShipCollisions(ship))
+				shipObj.addClass("collision");
+			else
+				shipObj.removeClass("collision");
 		}
 	}
 }
