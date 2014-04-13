@@ -17,20 +17,25 @@ p
 }
 #header
 {
+	transition: All 5s ease;
 	width: 100%;
 	height: 250px;
 	color: white;
-	background: black;
+	background: #2D889E;
 	font-family: sans-serif;
 	text-align: center;
 	padding: 30px;
 	line-height: 50px;
 }
+#header:hover
+{
+	background: #9D0E4C;
+}
 
 #user_block
 {
 	width: 200px;
-	height: 400px;
+	height: auto;
 	padding: 10px;
 	background: rgb(207, 207, 207);
 	border-radius: 5px;

@@ -4,7 +4,6 @@ function log_bdd()
 {
 	$co = unserialize($_SESSION['co']);
 	$co['co'] = 'ok';
-	unset($co['create']);
 	return (new Mysql($co));
 }
 
@@ -14,8 +13,8 @@ function install()
 	{
 		$sv = array('login' => $_POST['login'], 'passwd' => $_POST['passwd'], 'host' => $_POST['host'], 'create' => 'OK');
 		$bd = new Mysql($sv);
+		unset($sv['create']);
 		$_SESSION['co'] = serialize($sv);
-		?><script type="text/javascript">location.reload();</script><?php
 	}
 	else
 	{
@@ -38,9 +37,15 @@ function install()
 function new_user()
 {
 	$bdd = log_bdd();
+	if (!isset($_POST['login']) || empty($_POST['login']))
+	{
+		echo ("<h4>Un login serait le bienvenue</h4>".PHP_EOL);
+		subscribe();
+	}
 	if ($_POST['passwd'] != $_POST['passwd_v'])
 	{
-		echo ("<h4>Paswords differents</h4>".PHP_EOL);
+		echo ("<h4>Passwords differents</h4>".PHP_EOL);
+		subscribe();
 		return (false);
 	}
 	else
@@ -57,18 +62,19 @@ function new_user()
 		if (!filter_var($mail, FILTER_VALIDATE_EMAIL))
 		{
 			echo "<h4>Ceci n'est pas une adresse mail.</h4>".PHP_EOL;
-			form_log();
+			subscribe();
 			return false;
 		}
+		if ($bdd->add_user(array('login' => $user, 'passwd' => $pass, 'mail' => $mail)))
+		{
+			echo "<h4>BDD QUERY DONE</h4>".PHP_EOL;
+			$_SESSION['user'] = array('login' => $user);
+			welcome_user($bdd->get_login($user));
+			return true;
+		}
+		else
+			return false;
 	}
-	if ($bdd->add_user(array('login' => $user, 'passwd' => $pass, 'mail' => $mail)))
-	{
-		$_SESSION['user'] = array('login' => $user);
-		welcome_user($bdd->get_login($user));
-		return true;
-	}
-	else
-		return false;
 }
 
 function log_in($login, $passwd)
@@ -93,7 +99,6 @@ function log_in($login, $passwd)
 	}
 }
 
-
 function welcome_user($user)
 {
 	$usr = $user['login'];
@@ -102,14 +107,23 @@ function welcome_user($user)
 		<form method="post" action="index.php">
 			<input type="submit" class="submit" name="play" value="Play" \>
 			<input type="submit" class="submit" name="log_out" value="Log Out" \>
+			<input type="submit" class="submit" name="destroy" value="Destroy your account!" \>
 		</form>
 		<?php
-	if (isset($_POST['nb_play']) && isset($_POST['name']))
-		create_game($_POST['nb_play'], $_POST['name']);
-	if (isset($_POST['ships_ok']))
+	print_list_games_user($usr);
+	if (isset($_POST['destroy']))
+	{
+		$_SESSION['user'] = null;
+		form_log();
+	}
+	elseif (isset($_POST['game_ready']))
+		run_game($_POST['game_ready'], $usr);
+	elseif (isset($_POST['nb_play']) && isset($_POST['name']))
+		create_game($_POST['nb_play'], $_POST['name'], $usr);
+	elseif (isset($_POST['ships_ok']))
 		validate($usr);
 	elseif (isset($_POST['play']))
-		select_game($usr); ///. FUT SELECT_VERSUS !! TO CHANGE!!!!!
+		select_game($usr);
 	elseif (isset($_POST['faction']))
 	{
 		$_SESSION['user']['faction'] = $_POST['faction'];
@@ -136,8 +150,7 @@ function welcome_user($user)
 	}
 	elseif (isset($_SESSION['user']['faction']))
 		ship_choice($usr, $_SESSION['user']['faction']);
-	chat($user['login']);
-	
+	chat($user['login']);	
 }
 
 function faction_choice($usr)
@@ -157,30 +170,26 @@ function faction_choice($usr)
 
 function ship_choice($usr, $faction)
 {
-	$shop = new Shop($faction);
 	if (isset($_SESSION['user']['shop']))
 	{
-		$saved = unserialize($_SESSION['user']['shop']);
-		$shop->hydrate($saved);
-		$flotte = $shop->get_flotte();
-		foreach ($flotte as $k => $v) {
-			if ($v != 0) {
-				echo "<h4> $k : $v </h4>";
-			}
-		}
+		$shop = unserialize($_SESSION['user']['shop']);
+		$shop->print_flotte();
 	}
+	else
+		$shop = new Shop($faction);
 	$shop->print_shop();
 	if(isset($_POST['add']) && isset($_POST['ship']))
 	{
 		$shop->buy($_POST['ship']);
+		$_SESSION['user']['shop'] = serialize($shop);
 		?><script type="text/javascript">location.reload();</script><?php
 	}
 	else if(isset($_POST['del']) && isset($_POST['ship']))
 	{
 		$shop->delete($_POST['ship']);
+		$_SESSION['user']['shop'] = serialize($shop);
 		?><script type="text/javascript">location.reload();</script><?php
 	}
-	$_SESSION['user']['shop'] = serialize($shop->get_array_user());
 	?>
 	<form method="post" action="index.php">
 		<input type="submit" name="ships_ok" value="I'm ready to fight!" class="submit final" \>
@@ -188,7 +197,6 @@ function ship_choice($usr, $faction)
 	</div>
 	<?php
 }
-
 
 function select_game($usr)
 {
@@ -215,10 +223,15 @@ function select_game($usr)
 	<?php
 }
 
-function create_game($game, $nom)
+function create_game($game, $nom, $usr)
 {
 	$bd = log_bdd();
-	$bd->new_game($game, $nom);
+	if (!$bd->new_game($game, $nom))
+	{
+		echo "Cette partie existe deja!";
+		select_game($usr);
+	}
+	validate($usr);
 }
 
 function form_log()
@@ -234,7 +247,6 @@ function form_log()
 	</form>
 	<?php
 }
-
 
 function subscribe()
 {
@@ -297,12 +309,57 @@ function validate($usr)
 	else
 	{
 		$bd = log_bdd();
-		if (!$bd->record_player($_SESSION['user']['shop'], $_SESSION['user']['faction'], $usr, $_SESSION['user']['game']))
+		if ($bd->record_player(serialize($_SESSION['user']['shop']), $_SESSION['user']['faction'], $usr, $_SESSION['user']['game']))
 			echo "Hey! you're already in that game!";	
 		else
 			echo "<h1>YYYYOOUUU  AAARRRRRRREEE RREEAADDDYYYYYY</h1>";
 	}
-
 }
 
+function nb_player_in_game($game)
+{
+	$nb = 0;
+	for ($i=1; $i <=4 ; $i++) { 
+		if ($game['player'.$i])
+			$nb++;
+	}
+	return ($nb);
+}
+
+function print_one_game_user($usr, $game)
+{
+	echo "<div id='user_games'>";
+	if (nb_player_in_game($game) == $game['nb_players'])
+		echo "<form method='post' action='index.php' class='game_usr ready'> 
+				<input type='submit' class='submit ready' name='game_ready' value='".$game['name']."' \>
+			</form>";
+	else
+		echo "<div class='game_usr unready'> ".$game['name']." ".nb_player_in_game($game)."/ ".$game['nb_players']."</div>";
+	echo "</div>";
+}
+
+function print_list_games_user($usr)
+{
+	$bd = log_bdd();
+	$games = $bd->get_games($usr);
+	echo "<div id='my_games'>Your GAMES : ";
+	foreach ($games as $k => $v) {
+		if (in_array($usr, $v))
+			print_one_game_user($usr, $v);
+	}
+	echo "</div>";
+}
+
+function run_game($game_name, $usr)
+{
+	$bd = log_bdd();
+	$file = $bd->run_game($game_name, $usr);
+	$_SESSION['gameId'] = $file['ID'];
+	$_SESSION['game_file'] = $file;
+	?><script type="text/javascript">location.reload();</script><?php
+	echo "<pre>";
+	print_r($_SESSION['gameId']);
+	print_r($file);
+	echo "</pre>";
+}
 ?>

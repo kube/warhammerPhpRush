@@ -74,9 +74,8 @@
 
 #one_ship .not
 {
-	/* background: rgba(236, 133, 133, 0.92); */
-height: 188px;
-box-shadow: 9px -7px 50px 11px rgba(236, 133, 133, 0.92);
+	height: 188px;
+	box-shadow: 9px -7px 50px 11px rgba(236, 133, 133, 0.92);
 }
 
 #buy input

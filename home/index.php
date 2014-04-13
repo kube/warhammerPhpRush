@@ -1,13 +1,14 @@
 <?php 
-session_start();
-error_reporting(E_ALL);
-ini_set("display_errors", "On");
 
 require_once("home.php");
 require_once("chat.php");
 spl_autoload_register(function ($class) {
    require_once '../Class/'.$class . '.class.php';
 });
+
+session_start();
+if (isset($_SESSION['gameId']))
+	header('Location: /');
 if (!isset($_SESSION['co']))
 		install();
 ?>
@@ -28,7 +29,7 @@ if (!isset($_SESSION['co']))
 	setInterval(function() {
 		$('#messages').load('get_chat.php');
 	}, 300); 
-});
+	});
 	function scroll()
 	{
 		alert("scroll");
@@ -47,7 +48,7 @@ if (!isset($_SESSION['co']))
 <?php
 	if (isset($_POST['add_user']))
 		new_user();
-	else if (isset($_POST['log_in']))
+	else if (isset($_POST['log_in']) && isset($_POST['passwd']))
 		log_in($_POST['login'], $_POST['passwd']);
 	else if (!isset($_SESSION['user']) || isset($_POST['destroy']))
 	{

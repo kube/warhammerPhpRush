@@ -1,0 +1,13 @@
+<-Shop---------------------------------------------------------
+Shop Class is made do manage the flotte of one user in the game.
+
+construct need the faction of the user, 
+hydrate set all values given in the paramameters.
+print_shop print the entire shop in html.
+buy manage the paiment of a ship and add it to the collection.
+delete is the opposite o buy.
+get_array_user return informations about the instance of Shop.
+get_flotte return the starship collection of the instance
+print_stat print the statistic of a ship (thanks to the Ship class)
+
+---------------------------------------------------------Shop->
