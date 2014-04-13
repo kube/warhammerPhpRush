@@ -10,7 +10,11 @@ body
 	background: white;
 	font-family:  'Raleway', sans-serif;
 }
-
+p
+{
+	margin: 0;
+	padding: 0;
+}
 #header
 {
 	width: 100%;
@@ -50,7 +54,7 @@ body
 	background: white;
 }
 
-#user_block input
+input
 {
 	height: 25px;
 	width: 189px;
@@ -93,6 +97,7 @@ input.submit:hover{
 	width: 700px;
 	background: rgb(207, 207, 207);
 	height: 500px;
+	padding: 15px;
 }
 
 #install{
@@ -165,22 +170,53 @@ input#message
 
 #faction{
 	position: absolute;
-	top: 550px;
+	top: 370px;
 	left: 400px;
-	width: 500px;
+	width: 800px;
 	height: 400px;
 }
+
+#faction .big_head
+{
+	background: rgb(182, 75, 75);
+	color: white;
+	border: none;
+	text-transform: uppercase;
+	height: 100px;
+	width: 650px;
+	font-size: 30px;
+	margin: auto;
+	line-height: 100px;
+	text-align: center;
+	margin-bottom: 50px;
+}
+
 #faction .big
 {
 	transition: All 1s ease;
 	background: rgb(87, 85, 85);
 	color: white;
 	border: none;
-	text-transform: uppercase;	
+	text-transform: uppercase;
+	height: 100px;
+	width: 250px;
+	font-size: 30px;
 }
 
 #faction .big:hover
 {
 	background:  #9D0E4C;
 	cursor: pointer;
+}
+
+#all_users .rel
+{
+	position: relative;
+	top: -40px;
+	right: -225px;
+}
+
+#game
+{
+	height: 40px;
 }

@@ -11,7 +11,7 @@ class Shop
 	private $_ships = array();
 	private $_flotte = array();
 	
-	const MAX_SHIP = 5;
+	const MAX_SHIP = 6;
 	public function		__construct($faction)
 	{
 		echo $faction;

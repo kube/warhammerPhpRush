@@ -8,7 +8,8 @@ require_once("chat.php");
 spl_autoload_register(function ($class) {
    require_once '../Class/'.$class . '.class.php';
 });
-
+if (!isset($_SESSION['co']))
+		install();
 ?>
 <!DOCTYPE html>
 <html>
@@ -46,8 +47,6 @@ spl_autoload_register(function ($class) {
 <?php
 	if (isset($_POST['add_user']))
 		new_user();
-	else if (!isset($_SESSION['co']))
-		install();
 	else if (isset($_POST['log_in']))
 		log_in($_POST['login'], $_POST['passwd']);
 	else if (!isset($_SESSION['user']) || isset($_POST['destroy']))

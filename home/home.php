@@ -15,6 +15,7 @@ function install()
 		$sv = array('login' => $_POST['login'], 'passwd' => $_POST['passwd'], 'host' => $_POST['host'], 'create' => 'OK');
 		$bd = new Mysql($sv);
 		$_SESSION['co'] = serialize($sv);
+		?><script type="text/javascript">location.reload();</script><?php
 	}
 	else
 	{
@@ -103,8 +104,8 @@ function welcome_user($user)
 			<input type="submit" class="submit" name="log_out" value="Log Out" \>
 		</form>
 		<?php
-	if (isset($_POST['new_game']) && isset($_POST['name']))
-		create_game($_POST['new_game'], $_POST['name']);
+	if (isset($_POST['nb_play']) && isset($_POST['name']))
+		create_game($_POST['nb_play'], $_POST['name']);
 	if (isset($_POST['ships_ok']))
 		validate($usr);
 	elseif (isset($_POST['play']))
@@ -114,21 +115,22 @@ function welcome_user($user)
 		$_SESSION['user']['faction'] = $_POST['faction'];
 		ship_choice($usr, $_SESSION['user']['faction']);
 	}
-	else if (isset($_POST['play_versus']))
+	else if (isset($_POST['game_select']))
 	{
-		unset($_SESSION['user']['versus']);
-		$db = log_bdd();
+		unset($_SESSION['user']['game']);
 		if (count($_POST) > 4)
 			echo "trop de joueurs...";
 		else
 		{
 			for($i = 0; $i <= count($_POST); $i++)
 			{
-				if (isset($_POST['versus'.$i]))
-					$_SESSION['user']['versus'][] = $_POST['versus'.$i];
+				if (isset($_POST['game'.$i]))
+				{
+					$_SESSION['user']['game'] = $_POST['game'.$i];
+					break;
+				}
 			}
-			echo "Users has beed selected...";
-			$db->clean_players($usr, $_SESSION['user']['versus']);
+			echo "Game \"". $_SESSION['user']['game'] ."\" has been selected...";
 			faction_choice($usr);
 		}
 	}
@@ -142,7 +144,7 @@ function faction_choice($usr)
 {
 	?>
 	<div id='faction'>
-	<p class='big'> CHOOSE YOUR FACTION! </p>
+	<p class='big_head'> CHOOSE YOUR FACTION! </p>
 	<form method="post" action="index.php">
 		<input type="submit" name="faction" value="Orcs" class="big" \>
 		<input type="submit" name="faction" value="Trolls" class="big"\>
@@ -150,6 +152,7 @@ function faction_choice($usr)
 	</form>
 	</div>
 	<?php
+	if (isset($_SESSION['user']['shop'])){unset($_SESSION['user']['shop']);}
 }
 
 function ship_choice($usr, $faction)
@@ -187,11 +190,12 @@ function ship_choice($usr, $faction)
 }
 
 
-function select_game($usr) // TO ADD : Choice between join a game (if not started) OR create a game
+function select_game($usr)
 {
 	$bdd = log_bdd();
-	$all_games = $bdd->get_games();   /// A CREER
+	$all_games = $bdd->get_games();
 	echo "<div id='all_users'>
+		<h2> SELECT GAME FROM FOLLOWING WHERE 1 </h2>
 	<form method='post' action='index.php'>";
 	$i = 0;
 	foreach ($all_games as $one) {
@@ -199,13 +203,13 @@ function select_game($usr) // TO ADD : Choice between join a game (if not starte
 	}
 	?>
 	<form method="post" action="index.php">
-		<select name="nb_play">
+		<select name="nb_play" id="nb_play">
 			<option value="2">2</option>
 			<option value="3">3</option>
 			<option value="4">4</option>
 		</select>
 		<input type="text" name="name" class="game_name" \>
-		<input type="submit" name="new_game" value="Creer la game"\>
+		<input type="submit" name="new_game" value="Creer la game" class="submit" \>
 	</form>
 	</div>
 	<?php
@@ -213,9 +217,8 @@ function select_game($usr) // TO ADD : Choice between join a game (if not starte
 
 function create_game($game, $nom)
 {
-	print_r($game);
 	$bd = log_bdd();
-	$bd->new_game($game);
+	$bd->new_game($game, $nom);
 }
 
 function form_log()
@@ -251,33 +254,53 @@ function subscribe()
 	<?php
 }
 
+function place_in_game($game)
+{
+	$nb = $game['nb_players'];
+	for ($i=1; $i <= 4; $i++) { 
+		if ($game['player'.$i] != '')
+			$nb--;
+		if ($nb <= 0)
+			return false;
+	}
+	return true;
+}
 
 function print_game($game, $nb)
 {
-	print_r($game)
+	if(!place_in_game($game))
+		return false;
 	?>
 	<div id="game">
-		<form>
-		<input type="submit" name="versus<?php echo $nb?>" value="<?php echo $game['name']?>">
+		<form method="post" action="index.php">
+			<input type="hidden" name="game_select" \>
+			<input type="submit" name="game<?php echo $nb?>" value="<?php echo $game['name']?>" class="submit">
 		</form>
-	</div>
+		<p class="rel"> this party is for <?php echo $game['nb_players']; ?> only. with :
+			<?php
+			for ($i=1; $i <= 4; $i++) { 
+				if ($game['player'.$i])
+					echo " ".$game['player'.$i]." ";
+			}
+			?>
+	</p></div>
 	<?php
 }
 
 function validate($usr)
 {
 
-	if (!isset($_SESSION['user']['versus']))
-		select_versus($usr);
+	if (!isset($_SESSION['user']['game']))
+		select_game($usr);
 	else if(!isset($_SESSION['user']['shop']))
 		ship_choice($usr);
 	else
 	{
-		print_r($_SESSION['user']);
 		$bd = log_bdd();
-		$bd->record_player($_SESSION['user']['shop'], $_SESSION['user']['faction'], $usr);
-		//$bd->record_game()
-		echo "<h1>YYYYOOUUU  AAARRRRRRREEE RREEAADDDYYYYYY</h1>";
+		if (!$bd->record_player($_SESSION['user']['shop'], $_SESSION['user']['faction'], $usr, $_SESSION['user']['game']))
+			echo "Hey! you're already in that game!";	
+		else
+			echo "<h1>YYYYOOUUU  AAARRRRRRREEE RREEAADDDYYYYYY</h1>";
 	}
 
 }

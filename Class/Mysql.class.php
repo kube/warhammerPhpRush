@@ -80,9 +80,38 @@ class Mysql
 		return ($ret);
 	}
 
-	public function record_player($shop, $faction, $usr)
+	public function record_player($shop, $faction, $usr, $game)
 	{
-		$query = "UPDATE `42k_users` SET `shop` = '$shop', `faction` = '$faction' WHERE `login` = '$usr'";
+		$query = "UPDATE `42k_users` SET `shop` = '$shop', `faction` = '$faction', `games_id` = '$game' WHERE `login` = '$usr'";
+		$q = $this->_co->prepare($query);
+		$q->execute();
+		$query = "SELECT `player1` , `player2`, `player3`, `player4` FROM `42k_game` WHERE `name` = '$game'";
+		$q = $this->_co->prepare($query);
+		$q->execute();
+		$result = $q->fetchAll();
+		if(in_array($usr, $result[0]))
+		{
+			return false;
+		}
+		if ($result[0]['player1']) {
+			$this->insert_player_in_game($usr, 'player1', $game);
+		}
+		elseif ($result[0]['player2'] == '') {
+			$this->insert_player_in_game($usr, 'player2', $game);
+		}
+		elseif ($result[0]['player3'] == '') {
+			$this->insert_player_in_game($usr, 'player3', $game);
+		}
+		elseif ($result[0]['player4'] == '') {
+			$this->insert_player_in_game($usr, 'player4', $game);
+		}
+	}
+
+
+	public function insert_player_in_game($usr, $champ, $game)
+	{
+		echo "user = $usr";
+		$query = "UPDATE `42k_game` SET `$champ` = '$usr' WHERE `name` = '$game'";
 		$q = $this->_co->prepare($query);
 		$q->execute();
 	}
@@ -99,17 +128,16 @@ class Mysql
 
 	public function get_games()
 	{
-		$q = "SELECT * FROM `42k_game` WHERE 1";
-		$res = $this->_co->query($q);
-		print_r($res);
-		while ($l = $res->fetch())
-			$ret[] = $l;
-		return ($ret);	
+		$query = "SELECT * FROM `42k_game` WHERE 1";
+		$q = $this->_co->prepare($query);
+		$q->execute();
+		$result = $q->fetchAll();
+		return ($result);
 	}
 
 	public function new_game($nb, $name)
 	{
-		$query = "INSERT INTO `42k_game`(`nb_players`) VALUES ('$nb', '$name')";
+		$query = "INSERT INTO `42k_game`(`nb_players`, `name`) VALUES ('$nb', '$name')";
 		$q = $this->_co->prepare($query);
 		$q->execute();
 	}
